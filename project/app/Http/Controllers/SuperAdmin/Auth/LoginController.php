@@ -25,7 +25,9 @@ class LoginController extends Controller
             return redirect()->intended('/superadmin/dashboard');
         }
 
-        return back()->withInput($request->only('email', 'remember'));
+        return back()
+        ->withErrors(['email' => 'These credentials do not match our records.'])
+        ->withInput($request->only('email', 'remember'));
     }
 
     public function logout(Request $request)
