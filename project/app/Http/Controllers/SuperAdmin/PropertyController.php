@@ -34,6 +34,16 @@ class PropertyController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'total_units' => 'required|integer',
+            'available_units' => 'required|integer',
+            'capacity' => 'required|string',
+            'rent_type' => 'required|string',
+            'pet_policy' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+            'property_type' => 'required|string',
+            'amenities' => 'required|string',
+            'admin_id' => 'required|exists:users,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -55,7 +65,8 @@ class PropertyController extends Controller
      */
     public function show(Apartment $apartment)
     {
-        //
+        $apartment->load('owner');
+        return view('superadmin.show', compact('apartment'));
     }
 
     /**
@@ -63,7 +74,8 @@ class PropertyController extends Controller
      */
     public function edit(Apartment $apartment)
     {
-        //
+        $admins = \App\Models\User::all();
+        return view('superadmin.edit', compact('apartment', 'admins'));
     }
 
     /**
@@ -71,7 +83,38 @@ class PropertyController extends Controller
      */
     public function update(Request $request, Apartment $apartment)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'total_units' => 'required|integer',
+            'available_units' => 'required|integer',
+            'capacity' => 'required|string',
+            'rent_type' => 'required|string',
+            'pet_policy' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+            'property_type' => 'required|string',
+            'amenities' => 'required|string',
+            'admin_id' => 'required|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $apartment->fill($request->except('image'));
+
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($apartment->image && file_exists(public_path('images/apartments/' . $apartment->image))) {
+                unlink(public_path('images/apartments/' . $apartment->image));
+            }
+
+            $imageName = time().'.'.$request->image->extension();  
+            $request->image->move(public_path('images/apartments'), $imageName);
+            $apartment->image = $imageName;
+        }
+
+        $apartment->save();
+
+        return redirect()->route('superadmin.property.index')->with('success', 'Property updated successfully.');
     }
 
     /**
@@ -79,6 +122,7 @@ class PropertyController extends Controller
      */
     public function destroy(Apartment $apartment)
     {
-        //
+        $apartment->delete();
+        return redirect()->route('superadmin.property.index')->with('success', 'Property deleted successfully.');
     }
 }

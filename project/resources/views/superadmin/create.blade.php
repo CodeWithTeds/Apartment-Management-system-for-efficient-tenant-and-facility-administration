@@ -37,11 +37,17 @@
                             </div>
                             <div>
                                 <label for="rent_type" class="block text-sm font-medium text-gray-700">Rent Type</label>
-                                <input type="text" name="rent_type" id="rent_type" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                <select name="rent_type" id="rent_type" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Daily">Daily</option>
+                                </select>
                             </div>
                             <div>
                                 <label for="pet_policy" class="block text-sm font-medium text-gray-700">Pet Policy</label>
-                                <input type="text" name="pet_policy" id="pet_policy" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                <select name="pet_policy" id="pet_policy" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                    <option value="Allowed">Allowed</option>
+                                    <option value="Not Allowed">Not Allowed</option>
+                                </select>
                             </div>
                              <div>
                                 <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
@@ -57,7 +63,11 @@
                             </div>
                             <div>
                                 <label for="property_type" class="block text-sm font-medium text-gray-700">Property Type</label>
-                                <input type="text" name="property_type" id="property_type" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                <select name="property_type" id="property_type" class="w-full px-3 py-2 mt-1 border rounded-md">
+                                    <option value="Apartment">Apartment</option>
+                                    <option value="House">House</option>
+                                    <option value="Condo">Condo</option>
+                                </select>
                             </div>
                             <div class="lg:col-span-2">
                                 <label for="amenities" class="block text-sm font-medium text-gray-700">Amenities</label>

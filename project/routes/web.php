@@ -24,7 +24,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::post('/login', [App\Http\Controllers\SuperAdmin\Auth\LoginController::class, 'login']);
     Route::post('/logout', [App\Http\Controllers\SuperAdmin\Auth\LoginController::class, 'logout'])->name('logout');
     Route::view('/dashboard', 'superadmin.dashboard')->middleware('auth:superadmin')->name('dashboard');
-    Route::resource('property', App\Http\Controllers\SuperAdmin\PropertyController::class)->middleware('auth:superadmin');
+    Route::resource('property', App\Http\Controllers\SuperAdmin\PropertyController::class)->parameters(['property' => 'apartment'])->middleware('auth:superadmin');
 });
 
 
