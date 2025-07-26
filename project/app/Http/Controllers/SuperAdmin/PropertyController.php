@@ -44,17 +44,23 @@ class PropertyController extends Controller
             'property_type' => 'required|string',
             'amenities' => 'required|string',
             'admin_id' => 'required|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $apartment = new Apartment($request->all());
+        $apartment = new Apartment($request->except(['image1', 'image2', 'image3', 'image4', 'image5']));
 
-        if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images/apartments'), $imageName);
-            $apartment->image = $imageName;
+        for ($i = 1; $i <= 5; $i++) {
+            if ($request->hasFile('image' . $i)) {
+                $imageName = time() . '_' . $request->file('image' . $i)->getClientOriginalName();
+                $request->file('image' . $i)->move(public_path('images/apartments'), $imageName);
+                $apartment->{'image' . $i} = $imageName;
+            }
         }
-
+        
         $apartment->save();
 
         return redirect()->route('superadmin.property.index')->with('success', 'Property created successfully.');
@@ -96,20 +102,26 @@ class PropertyController extends Controller
             'property_type' => 'required|string',
             'amenities' => 'required|string',
             'admin_id' => 'required|exists:users,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $apartment->fill($request->except('image'));
+        $apartment->fill($request->except(['image1', 'image2', 'image3', 'image4', 'image5']));
 
-        if ($request->hasFile('image')) {
-            // Delete old image if it exists
-            if ($apartment->image && file_exists(public_path('images/apartments/' . $apartment->image))) {
-                unlink(public_path('images/apartments/' . $apartment->image));
+        for ($i = 1; $i <= 5; $i++) {
+            if ($request->hasFile('image' . $i)) {
+                // Delete old image if it exists
+                if ($apartment->{'image' . $i} && file_exists(public_path('images/apartments/' . $apartment->{'image' . $i}))) {
+                    unlink(public_path('images/apartments/' . $apartment->{'image' . $i}));
+                }
+
+                $imageName = time() . '_' . $request->file('image' . $i)->getClientOriginalName();
+                $request->file('image' . $i)->move(public_path('images/apartments'), $imageName);
+                $apartment->{'image' . $i} = $imageName;
             }
-
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('images/apartments'), $imageName);
-            $apartment->image = $imageName;
         }
 
         $apartment->save();

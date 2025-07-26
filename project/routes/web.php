@@ -2,10 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Http\Controllers\HomeController;
+use App\Models\Apartment;
+use App\Http\Controllers\ApartmentController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $apartments = Apartment::latest()->get();
+    return view('landing', compact('apartments'));
 })->name('home');
+
+Route::get('/apartment/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

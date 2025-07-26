@@ -22,7 +22,11 @@ return new class extends Migration
             $table->string('rent_type')->nullable();
             $table->string('pet_policy')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
+            $table->string('image1')->nullable();
+            $table->string('image2')->nullable();
+            $table->string('image3')->nullable();
+            $table->string('image4')->nullable();
+            $table->string('image5')->nullable();
             $table->string('status')->default('Active');
             $table->string('location')->nullable();
             $table->decimal('price', 10, 2)->default(0.00);
