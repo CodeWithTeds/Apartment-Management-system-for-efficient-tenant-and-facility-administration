@@ -5,31 +5,7 @@
 
         <!-- Main content -->
         <div class="flex flex-col flex-1">
-            <header class="flex items-center justify-between h-20 px-6 bg-white shadow-md">
-                <button @click="sidebarOpen = !sidebarOpen" class="p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-                <div class="flex items-center space-x-4">
-                    <div class="text-right">
-                        <p class="font-semibold">Mark</p>
-                        <p class="text-sm text-gray-500">TID: 12345</p>
-                    </div>
-                    <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
-                    <button class="p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                        </svg>
-                    </button>
-                    <form method="POST" action="{{ route('superadmin.logout') }}">
-                        @csrf
-                        <button type="submit" class="p-2 font-semibold text-white bg-red-500 rounded-md">
-                            Logout
-                        </button>
-                    </form>
-                </div>
-            </header>
+            @include('superadmin.partials.sidebar')
             
             <main class="flex-1 p-6">
                 <h2 class="mb-6 text-3xl font-bold">DASHBOARD</h2>

@@ -13,7 +13,7 @@
         <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100">
             <span class="font-semibold">Users</span>
         </a>
-        <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100">
+        <a href="{{ route('superadmin.applications.index') }}" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100">
             <span class="font-semibold">Applicants</span>
         </a>
         <a href="#" class="flex items-center px-4 py-3 text-gray-600 rounded-lg hover:bg-gray-100">

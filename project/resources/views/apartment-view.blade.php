@@ -17,7 +17,7 @@
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
         <div class="mb-6">
-            <a href="{{ route('home') }}" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-300">
+            <a href="/" class="inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-300">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 Back to Listings
             </a>

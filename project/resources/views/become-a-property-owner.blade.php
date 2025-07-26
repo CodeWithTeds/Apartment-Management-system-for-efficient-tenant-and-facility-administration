@@ -20,7 +20,7 @@
         }
     </style>
 </head>
-<body class="bg-gray-50" x-data="{ step: 'email', verificationCode: '', email: '' }">
+<body class="bg-gray-50">
     <x-header />
 
     <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -29,23 +29,11 @@
                 <img src="{{ asset('images/become-owner.png') }}" alt="A modern apartment building" class="rounded-2xl shadow-lg w-full h-full object-cover">
             </div>
             <div class="max-w-4xl mx-auto">
-                <div x-show="step === 'email'">
+                <div>
                     <h1 class="text-4xl font-bold text-gray-800 mb-4">Partner with Hyslop</h1>
                     <p class="text-lg text-gray-600 mb-8">Join our network of property owners and unlock the full potential of your investment. Start by verifying your email address.</p>
                     
-                    <div class="flex items-center space-x-4">
-                        <input type="email" x-model="email" placeholder="Enter your email address" class="flex-grow border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                        <button @click.prevent="step = 'code'" class="inline-flex justify-center py-2 px-6 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                            Get Code
-                        </button>
-                    </div>
-                </div>
-
-                <div x-show="step === 'code'" x-cloak>
-                    <h1 class="text-4xl font-bold text-gray-800 mb-4">Enter Verification Code</h1>
-                    <p class="text-lg text-gray-600 mb-8">We've sent a verification code to <span x-text="email" class="font-semibold"></span>. Please enter it below to continue.</p>
-                    
-                    <x-property-application-form />
+                    @livewire('property-application-form')
                 </div>
             </div>
         </div>

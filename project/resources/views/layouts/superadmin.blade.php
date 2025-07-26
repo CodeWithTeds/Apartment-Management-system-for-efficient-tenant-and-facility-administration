@@ -29,8 +29,21 @@
         
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            {{ $slot }}
+        <div x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-100">
+            @include('superadmin.partials.sidebar')
+
+            <div class="flex flex-col flex-1">
+                @include('superadmin.partials.header')
+
+                <main class="h-full pb-16 overflow-y-auto">
+                    <div class="container grid px-6 mx-auto">
+                        <h2 class="my-6 text-2xl font-semibold text-gray-700">
+                            {{ $title ?? '' }}
+                        </h2>
+                        {{ $slot }}
+                    </div>
+                </main>
+            </div>
         </div>
     </body>
 </html> 
