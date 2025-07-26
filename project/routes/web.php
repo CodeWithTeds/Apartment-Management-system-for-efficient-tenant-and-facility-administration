@@ -5,12 +5,44 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\HomeController;
 use App\Models\Apartment;
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\SuperAdmin\UsersController;
+use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
+use App\Http\Controllers\PropertyApplicationController;
 
-Route::get('/', function () {
-    $apartments = Apartment::latest()->get();
-    return view('landing', compact('apartments'));
-})->name('home');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/become-a-property-owner', function () {
+    return view('become-a-property-owner');
+})->name('become-a-property-owner');
+
+Route::post('/property-applications', [PropertyApplicationController::class, 'store'])->name('property-applications.store');
+Route::get('/property-applications/verify/{token}', [PropertyApplicationController::class, 'verify'])->name('property-applications.verify');
+
+// Test route for email verification (remove in production)
+Route::get('/test-email/{email}', function($email) {
+    $application = new \App\Models\PropertyApplication([
+        'full_name' => 'Test User',
+        'email' => $email,
+        'verification_token' => 'test-token-123'
+    ]);
+    
+    \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\VerifyPropertyApplicationMail($application));
+    
+    return 'Test email sent to ' . $email . '. Check your logs at storage/logs/laravel.log';
+});
+
+// Route for individual apartment view
 Route::get('/apartment/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
 
 Route::view('dashboard', 'dashboard')

@@ -5,7 +5,8 @@
            
         </div>
         <div class="flex items-center space-x-8">
-            <a href="#" class="text-gray-600 hover:text-gray-900 font-semibold tracking-wide">HOME</a>
+            <a href="{{ route('home') }}" class="text-gray-600 hover:text-gray-900 font-semibold tracking-wide">HOME</a>
+            <a href="{{ route('become-a-property-owner') }}" class="text-gray-600 hover:text-gray-900 font-semibold tracking-wide">BECOME A PROPERTY OWNER</a>
             <a href="#" class="text-gray-600 hover:text-gray-900 font-semibold tracking-wide">CONTACT</a>
             <a href="#" class="text-gray-600 hover:text-gray-900 font-semibold tracking-wide">LOGIN</a>
         </div>
