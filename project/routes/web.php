@@ -7,6 +7,7 @@ use App\Models\Apartment;
 use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
+use App\Http\Controllers\LandingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,8 @@ use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentCo
 |
 */
 
-Route::view('/', 'landing');
+Route::get('/', LandingController::class);
+Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
