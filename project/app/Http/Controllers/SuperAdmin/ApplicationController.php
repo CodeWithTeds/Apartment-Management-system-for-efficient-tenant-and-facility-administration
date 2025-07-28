@@ -33,7 +33,7 @@ class ApplicationController extends Controller
         if ($request->status == 'approved' && $application->application_status != 'approved') {
             $password = Str::random(12);
             
-            $user = User::firstOrCreate(
+            $user = User::updateOrCreate(
                 ['email' => $application->email],
                 [
                     'name' => $application->full_name,
@@ -44,10 +44,7 @@ class ApplicationController extends Controller
             // Assign a role to the user, e.g., 'owner'
             // $user->assignRole('owner'); // Uncomment and adjust if you have a role system
 
-            // Check if the user was just created to decide whether to send the email
-            if ($user->wasRecentlyCreated) {
-                Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
-            }
+            Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
         }
 
         $application->update([
