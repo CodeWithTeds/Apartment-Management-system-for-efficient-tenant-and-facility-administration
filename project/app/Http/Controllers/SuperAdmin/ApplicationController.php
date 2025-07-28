@@ -5,6 +5,11 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PropertyApplication;
+use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApplicationApprovedMail;
 
 class ApplicationController extends Controller
 {
@@ -25,11 +30,24 @@ class ApplicationController extends Controller
             'status' => 'required|in:approved,rejected',
         ]);
 
+        if ($request->status == 'approved' && $application->application_status != 'approved') {
+            $password = Str::random(12);
+            
+            $user = User::create([
+                'name' => $application->full_name,
+                'email' => $application->email,
+                'password' => Hash::make($password),
+            ]);
+
+            // Assign a role to the user, e.g., 'owner'
+            // $user->assignRole('owner'); // Uncomment and adjust if you have a role system
+
+            Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
+        }
+
         $application->update([
             'application_status' => $request->status,
         ]);
-
-        // You might want to send an email to the applicant here
 
         return redirect()->route('superadmin.applications.index')->with('success', 'Application status updated successfully.');
     }
