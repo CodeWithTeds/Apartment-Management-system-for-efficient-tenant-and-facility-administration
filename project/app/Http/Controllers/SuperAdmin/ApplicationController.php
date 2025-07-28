@@ -33,16 +33,21 @@ class ApplicationController extends Controller
         if ($request->status == 'approved' && $application->application_status != 'approved') {
             $password = Str::random(12);
             
-            $user = User::create([
-                'name' => $application->full_name,
-                'email' => $application->email,
-                'password' => Hash::make($password),
-            ]);
+            $user = User::firstOrCreate(
+                ['email' => $application->email],
+                [
+                    'name' => $application->full_name,
+                    'password' => Hash::make($password),
+                ]
+            );
 
             // Assign a role to the user, e.g., 'owner'
             // $user->assignRole('owner'); // Uncomment and adjust if you have a role system
 
-            Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
+            // Check if the user was just created to decide whether to send the email
+            if ($user->wasRecentlyCreated) {
+                Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
+            }
         }
 
         $application->update([
@@ -50,5 +55,12 @@ class ApplicationController extends Controller
         ]);
 
         return redirect()->route('superadmin.applications.index')->with('success', 'Application status updated successfully.');
+    }
+
+    public function destroy(PropertyApplication $application)
+    {
+        $application->delete();
+
+        return redirect()->route('superadmin.applications.index')->with('success', 'Application deleted successfully.');
     }
 }
