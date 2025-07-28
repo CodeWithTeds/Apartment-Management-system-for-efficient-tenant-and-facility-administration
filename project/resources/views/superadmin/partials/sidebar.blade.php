@@ -23,7 +23,7 @@
                   {{ request()->routeIs('superadmin.applications.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Applicants</span>
         </a>
-        <a href="#" 
+        <a href="{{ route('superadmin.subscriptions.index') }}" 
            class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Subscription Billing</span>
         </a>

@@ -40,6 +40,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::view('/dashboard', 'superadmin.dashboard')->middleware('auth:superadmin')->name('dashboard');
     Route::resource('property', App\Http\Controllers\SuperAdmin\PropertyController::class)->parameters(['property' => 'apartment'])->middleware('auth:superadmin');
     Route::resource('applications', App\Http\Controllers\SuperAdmin\ApplicationController::class)->middleware('auth:superadmin');
+    Route::resource('subscriptions', App\Http\Controllers\SuperAdmin\SubscriptionController::class)->middleware('auth:superadmin');
 });
 
 require __DIR__.'/auth.php';
