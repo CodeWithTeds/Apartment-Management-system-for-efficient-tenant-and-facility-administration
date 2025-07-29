@@ -5,6 +5,7 @@ use Livewire\Volt\Volt;
 use App\Http\Controllers\HomeController;
 use App\Models\Apartment;
 use App\Http\Controllers\ApartmentController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
 use App\Http\Controllers\LandingController;
@@ -23,7 +24,7 @@ use App\Http\Controllers\LandingController;
 Route::get('/', LandingController::class);
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
 
-Route::view('dashboard', 'dashboard')
+Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 

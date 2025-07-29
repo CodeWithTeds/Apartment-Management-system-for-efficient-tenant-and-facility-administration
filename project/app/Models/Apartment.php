@@ -19,7 +19,11 @@ class Apartment extends Model
         'rent_type',
         'pet_policy',
         'description',
-        'image',
+        'image1',
+        'image2',
+        'image3',
+        'image4',
+        'image5',
         'status',
         'location',
         'price',
@@ -30,5 +34,10 @@ class Apartment extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function rules()
+    {
+        return $this->hasMany(ApartmentRule::class);
     }
 }

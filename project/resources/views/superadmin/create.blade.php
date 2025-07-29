@@ -191,6 +191,18 @@
                                 @enderror
                             </div>
                         </div>
+
+                        <div class="mt-6">
+                            <h3 class="text-lg font-medium text-gray-900">Apartment Rules</h3>
+                            <div id="rules-container" class="mt-2">
+                                <div class="flex items-center mt-2">
+                                    <input type="text" name="rules[]" class="w-full px-3 py-2 border rounded-md" placeholder="Enter a rule">
+                                    <button type="button" class="ml-2 text-red-500" onclick="removeRule(this)">Remove</button>
+                                </div>
+                            </div>
+                            <button type="button" id="add-rule" class="mt-2 text-blue-500">Add Rule</button>
+                        </div>
+
                         <div class="flex justify-end mt-6">
                             <button type="submit" class="px-6 py-2 font-semibold text-white bg-blue-600 rounded-lg">
                                 SAVE PROPERTY
@@ -201,4 +213,21 @@
             </main>
         </div>
     </div>
+
+    <script>
+        document.getElementById('add-rule').addEventListener('click', function () {
+            const rulesContainer = document.getElementById('rules-container');
+            const newRule = document.createElement('div');
+            newRule.className = 'flex items-center mt-2';
+            newRule.innerHTML = `
+                <input type="text" name="rules[]" class="w-full px-3 py-2 border rounded-md" placeholder="Enter a rule">
+                <button type="button" class="ml-2 text-red-500" onclick="removeRule(this)">Remove</button>
+            `;
+            rulesContainer.appendChild(newRule);
+        });
+
+        function removeRule(button) {
+            button.parentElement.remove();
+        }
+    </script>
 </x-superadmin-layout>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Apartment;
+use App\Models\ApartmentRule;
 use Illuminate\Http\Request;
 
 class PropertyController extends Controller
@@ -49,9 +50,10 @@ class PropertyController extends Controller
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'rules.*' => 'nullable|string',
         ]);
 
-        $apartment = new Apartment($request->except(['image1', 'image2', 'image3', 'image4', 'image5']));
+        $apartment = new Apartment($request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']));
 
         for ($i = 1; $i <= 5; $i++) {
             if ($request->hasFile('image' . $i)) {
@@ -62,6 +64,14 @@ class PropertyController extends Controller
         }
         
         $apartment->save();
+
+        if ($request->has('rules')) {
+            foreach ($request->rules as $rule) {
+                if ($rule) {
+                    $apartment->rules()->create(['rule' => $rule]);
+                }
+            }
+        }
 
         return redirect()->route('superadmin.property.index')->with('success', 'Property created successfully.');
     }
@@ -81,6 +91,7 @@ class PropertyController extends Controller
     public function edit(Apartment $apartment)
     {
         $admins = \App\Models\User::all();
+        $apartment->load('rules');
         return view('superadmin.edit', compact('apartment', 'admins'));
     }
 
@@ -107,9 +118,10 @@ class PropertyController extends Controller
             'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'rules.*' => 'nullable|string',
         ]);
 
-        $apartment->fill($request->except(['image1', 'image2', 'image3', 'image4', 'image5']));
+        $apartment->fill($request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']));
 
         for ($i = 1; $i <= 5; $i++) {
             if ($request->hasFile('image' . $i)) {
@@ -125,6 +137,15 @@ class PropertyController extends Controller
         }
 
         $apartment->save();
+
+        $apartment->rules()->delete();
+        if ($request->has('rules')) {
+            foreach ($request->rules as $rule) {
+                if ($rule) {
+                    $apartment->rules()->create(['rule' => $rule]);
+                }
+            }
+        }
 
         return redirect()->route('superadmin.property.index')->with('success', 'Property updated successfully.');
     }

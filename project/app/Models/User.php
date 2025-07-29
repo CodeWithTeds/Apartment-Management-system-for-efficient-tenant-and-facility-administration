@@ -58,4 +58,14 @@ class User extends Authenticatable
             ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
     }
+
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class, 'admin_id');
+    }
+
+    public function properties()
+    {
+        return $this->hasMany(Apartment::class, 'admin_id');
+    }
 }
