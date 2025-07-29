@@ -6,16 +6,16 @@ use Livewire\Volt\Volt;
 use App\Livewire\Actions\Logout;
 
 Route::middleware('guest')->group(function () {
-    Volt::route('register', 'register')
+    Volt::route('register', 'auth.register')
         ->name('register');
 
-    Volt::route('login', 'login')
+    Volt::route('login', 'auth.login')
         ->name('login');
 
-    Volt::route('forgot-password', 'forgot-password')
+    Volt::route('forgot-password', 'auth.forgot-password')
         ->name('password.request');
 
-    Volt::route('reset-password/{token}', 'reset-password')
+    Volt::route('reset-password/{token}', 'auth.reset-password')
         ->name('password.reset');
 });
 
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
 
-    Volt::route('confirm-password', 'confirm-password')
+    Volt::route('confirm-password', 'auth.confirm-password')
         ->name('password.confirm');
 });
 
