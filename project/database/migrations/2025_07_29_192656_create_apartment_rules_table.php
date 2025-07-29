@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('apartment_rules', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('apartment_id')->constrained()->onDelete('cascade');
+            $table->string('rule');
             $table->timestamps();
         });
     }
