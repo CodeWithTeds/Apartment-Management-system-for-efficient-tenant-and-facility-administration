@@ -15,6 +15,12 @@
         </div>
     @endif
 
+    @if (isset($message))
+        <div class="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg" role="alert">
+            <span class="font-medium">Note:</span> {{ $message }}
+        </div>
+    @endif
+
     <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5">
         <div class="w-full mb-1">
             <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
@@ -67,6 +73,9 @@
                                     Status
                                 </th>
                                 <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
+                                    Payment Status
+                                </th>
+                                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase">
                                     Actions
                                 </th>
                             </tr>
@@ -85,6 +94,16 @@
                                         <div class="flex items-center">
                                             <div class="h-2.5 w-2.5 rounded-full {{ $subscription->status === 'Active' ? 'bg-green-400' : ($subscription->status === 'Suspended' ? 'bg-yellow-400' : 'bg-red-400') }} mr-2"></div>
                                             {{ $subscription->status }}
+                                        </div>
+                                    </td>
+                                    <td class="p-4 text-base font-normal text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full 
+                                                {{ $subscription->payment_status === 'paid' ? 'bg-green-400' : 
+                                                   ($subscription->payment_status === 'pending' ? 'bg-yellow-400' : 
+                                                   ($subscription->payment_status === 'refunded' ? 'bg-blue-400' : 'bg-red-400')) }} 
+                                                mr-2"></div>
+                                            {{ ucfirst($subscription->payment_status) }}
                                         </div>
                                     </td>
                                     <td class="p-4 space-x-2 whitespace-nowrap">

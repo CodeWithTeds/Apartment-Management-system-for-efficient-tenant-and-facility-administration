@@ -18,6 +18,7 @@ class Subscription extends Model
         'renewal_date',
         'amount',
         'status',
+        'payment_status',
         'payment_method',
         'payment_link',
         'notes',

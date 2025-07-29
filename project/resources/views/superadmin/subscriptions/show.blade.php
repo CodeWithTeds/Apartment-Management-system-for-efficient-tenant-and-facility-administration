@@ -71,6 +71,17 @@
                             {{ $subscription->status }}
                         </p>
                     </div>
+                    <div>
+                        <span class="text-sm font-medium text-gray-500">Payment Status:</span>
+                        <p class="text-gray-900 flex items-center">
+                            <span class="h-2.5 w-2.5 rounded-full 
+                                {{ $subscription->payment_status === 'paid' ? 'bg-green-400' : 
+                                   ($subscription->payment_status === 'pending' ? 'bg-yellow-400' : 
+                                   ($subscription->payment_status === 'refunded' ? 'bg-blue-400' : 'bg-red-400')) }} 
+                                mr-2"></span>
+                            {{ ucfirst($subscription->payment_status) }}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
