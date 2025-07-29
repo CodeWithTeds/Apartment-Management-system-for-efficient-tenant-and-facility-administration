@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,9 @@ use App\Http\Controllers\LandingController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 Route::get('/', LandingController::class);
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');

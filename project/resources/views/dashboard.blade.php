@@ -1,4 +1,21 @@
 <x-admin-layout>
+    <div class="p-4 bg-white rounded-lg shadow-xs">
+        <h2 class="text-lg font-semibold text-gray-800">Welcome, {{ auth()->user()->name }}</h2>
+        <p class="mt-2 text-gray-600">This is your dashboard. You can manage your properties here.</p>
+    </div>
+
+    @if(session('success'))
+        <div class="p-4 mt-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="p-4 mt-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
     @if($hasPendingPayment)
     <div class="mb-4 rounded-md bg-yellow-50 p-4">
         <div class="flex">

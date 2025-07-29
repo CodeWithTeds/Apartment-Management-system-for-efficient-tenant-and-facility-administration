@@ -19,23 +19,6 @@ class SubscriptionController extends Controller
         
         $subscriptions = $query->paginate(10);
         
-        // Handle payment success/cancel and update payment status automatically
-        if ($request->has('payment_success') && $request->has('subscription_id')) {
-            $subscription = Subscription::find($request->subscription_id);
-            if ($subscription) {
-                $subscription->update(['payment_status' => 'paid']);
-                return redirect()->route('superadmin.subscriptions.index')
-                    ->with('success', 'Payment successful! The subscription has been marked as paid.');
-            }
-        } elseif ($request->has('payment_cancelled') && $request->has('subscription_id')) {
-            $subscription = Subscription::find($request->subscription_id);
-            if ($subscription) {
-                $subscription->update(['payment_status' => 'failed']);
-                return redirect()->route('superadmin.subscriptions.index')
-                    ->with('error', 'Payment was cancelled. The subscription has been marked as failed.');
-            }
-        }
-        
         return view('superadmin.subscriptions.index', compact('subscriptions'));
     }
 
@@ -141,8 +124,8 @@ class SubscriptionController extends Controller
                     ],
                     'payment_method_types' => ['gcash'],
                     'description' => 'Subscription for ' . $subscription->subscription_plan,
-                    'success_url' => route('superadmin.subscriptions.index') . '?payment_success=true&subscription_id=' . $subscription->id,
-                    'cancel_url' => route('superadmin.subscriptions.index') . '?payment_cancelled=true&subscription_id=' . $subscription->id,
+                    'success_url' => route('payment.success') . '?subscription_id=' . $subscription->id,
+                    'cancel_url' => route('payment.cancel') . '?subscription_id=' . $subscription->id,
                 ],
             ],
         ]);
