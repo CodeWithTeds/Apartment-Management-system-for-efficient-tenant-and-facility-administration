@@ -41,82 +41,115 @@
 
     @if($properties->isNotEmpty())
         @foreach($properties as $property)
-            <div class="bg-white rounded-lg shadow-lg mt-4">
-                <div class="p-6">
-                    <h1 class="text-3xl font-bold text-gray-800">{{ $property->name }}</h1>
-                    <p class="mt-2 text-gray-600 flex items-center">
-                        <svg class="w-5 h-5 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                        {{ $property->address }}
-                    </p>
+            <div class="bg-white rounded-2xl shadow-xl mt-6">
+                <div class="p-8">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h1 class="text-4xl font-bold text-gray-900">{{ $property->name }}</h1>
+                            <p class="mt-2 text-gray-600 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                                {{ $property->address }}
+                            </p>
+                        </div>
+                        <a href="{{ route('admin.property.edit', $property) }}" class="px-6 py-3 text-sm font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200">Edit Property</a>
+                    </div>
 
-                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="md:col-span-2">
+                    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2">
                             @if($property->image1)
-                                <img src="{{ asset('images/apartments/' . $property->image1) }}" alt="Apartment Image" class="w-full h-96 object-cover rounded-lg">
+                                <img src="{{ asset('images/apartments/' . $property->image1) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg">
                             @endif
                         </div>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-1 gap-6">
                             @if($property->image2)
-                                <img src="{{ asset('images/apartments/' . $property->image2) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-lg">
+                                <img src="{{ asset('images/apartments/' . $property->image2) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-xl shadow-lg">
                             @endif
                             @if($property->image3)
-                                <img src="{{ asset('images/apartments/' . $property->image3) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-lg">
+                                <img src="{{ asset('images/apartments/' . $property->image3) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-xl shadow-lg">
                             @endif
                         </div>
                     </div>
 
-                    <div class="mt-8 border-t border-gray-200 pt-6">
-                        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
+                    <div class="mt-8 border-t border-gray-200 pt-8">
+                        <div class="grid grid-cols-2 md:grid-cols-5 gap-8 text-center">
                             <div>
-                                <p class="text-sm text-gray-500">TOTAL UNITS</p>
-                                <p class="text-2xl font-bold text-gray-800">{{ $property->total_units }}</p>
+                                <p class="text-sm font-medium text-gray-500">TOTAL UNITS</p>
+                                <p class="text-3xl font-bold text-gray-900">{{ $property->total_units }}</p>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500">AVAILABLE UNIT</p>
-                                <p class="text-2xl font-bold text-gray-800">{{ $property->available_units }}</p>
+                                <p class="text-sm font-medium text-gray-500">AVAILABLE</p>
+                                <p class="text-3xl font-bold text-gray-900">{{ $property->available_units }}</p>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500">RENT TYPE</p>
-                                <p class="font-semibold text-gray-800">{{ $property->rent_type }}</p>
+                                <p class="text-sm font-medium text-gray-500">RENT TYPE</p>
+                                <p class="text-lg font-semibold text-gray-800">{{ $property->rent_type }}</p>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500">PET POLICY</p>
-                                <p class="font-semibold text-gray-800">{{ $property->pet_policy }}</p>
+                                <p class="text-sm font-medium text-gray-500">PET POLICY</p>
+                                <p class="text-lg font-semibold text-gray-800">{{ $property->pet_policy }}</p>
                             </div>
                             <div>
-                                <p class="text-sm text-gray-500">Capacity per unit</p>
-                                <p class="font-semibold text-gray-800">{{ $property->capacity }}</p>
+                                <p class="text-sm font-medium text-gray-500">CAPACITY</p>
+                                <p class="text-lg font-semibold text-gray-800">{{ $property->capacity }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="mt-8 border-t border-gray-200 pt-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="mt-8 border-t border-gray-200 pt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <div>
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Description</h2>
-                            <p class="text-gray-700 leading-relaxed">
+                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Description</h2>
+                            <p class="text-gray-700 leading-relaxed prose">
                                 {{ $property->description }}
                             </p>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-semibold text-gray-800 mb-2">Apartment Rules</h2>
+                            <h2 class="text-3xl font-bold text-gray-900 mb-4">Apartment Rules</h2>
                             @if($property->rules->isNotEmpty())
-                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <ul class="list-disc list-inside text-gray-700 space-y-2">
                                     @foreach($property->rules as $rule)
                                         <li>{{ $rule->rule }}</li>
                                     @endforeach
                                 </ul>
                             @else
-                                <p class="text-gray-700">No rules specified for this property.</p>
+                                <p class="text-gray-500">No rules specified for this property.</p>
                             @endif
                         </div>
                     </div>
+
+                    <div class="mt-8 border-t border-gray-200 pt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-2xl shadow-lg">
+                            <h2 class="text-3xl font-bold text-blue-900 mb-4">Monthly Stay</h2>
+                            <p class="text-4xl font-bold text-blue-800">P{{ number_format($property->monthly_price ?? 0, 2) }} <span class="text-xl font-medium text-gray-600">per month</span></p>
+                            <div class="mt-6">
+                                <h3 class="font-bold text-lg text-gray-800">What's Included:</h3>
+                                <div class="prose text-gray-700 mt-2">
+                                    {!! nl2br(e($property->monthly_includes ?? 'Not specified')) !!}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-2xl shadow-lg">
+                            <h2 class="text-3xl font-bold text-green-900 mb-4">Short-Term Stay</h2>
+                            <p class="text-4xl font-bold text-green-800">P{{ number_format($property->short_term_price ?? 0, 2) }} <span class="text-xl font-medium text-gray-600">per night</span></p>
+                            @if($property->short_term_minimum_stay)
+                            <p class="text-md text-gray-600 mt-2">Minimum stay: {{ $property->short_term_minimum_stay }} nights</p>
+                            @endif
+                            <div class="mt-6">
+                                <h3 class="font-bold text-lg text-gray-800">What's Included:</h3>
+                                <div class="prose text-gray-700 mt-2">
+                                    {!! nl2br(e($property->short_term_includes ?? 'Not specified')) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         @endforeach
     @else
-        <div class="bg-white rounded-lg shadow-lg mt-4">
-            <div class="p-6 text-center">
-                <p class="text-gray-500">You have no properties assigned to you yet.</p>
+        <div class="bg-white rounded-lg shadow-lg mt-6">
+            <div class="p-8 text-center">
+                <p class="text-gray-600">You have no properties assigned to you yet.</p>
             </div>
         </div>
     @endif

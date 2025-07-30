@@ -50,4 +50,8 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::resource('subscriptions', App\Http\Controllers\SuperAdmin\SubscriptionController::class)->middleware('auth:superadmin');
 });
 
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+    Route::resource('property', App\Http\Controllers\Admin\PropertyController::class)->parameters(['property' => 'apartment']);
+});
+
 require __DIR__.'/auth.php';

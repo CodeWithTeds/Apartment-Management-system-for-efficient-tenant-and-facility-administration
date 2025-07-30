@@ -29,6 +29,11 @@ class Apartment extends Model
         'price',
         'property_type',
         'amenities',
+        'monthly_price',
+        'monthly_includes',
+        'short_term_price',
+        'short_term_includes',
+        'short_term_minimum_stay',
     ];
 
     public function owner()
