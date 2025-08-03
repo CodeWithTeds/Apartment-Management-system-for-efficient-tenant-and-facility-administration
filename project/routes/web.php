@@ -8,6 +8,7 @@ use App\Http\Controllers\ApartmentController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\PropertyController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Admin\UnitController;
 
 Route::get('/', LandingController::class);
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
+Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 
 Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])

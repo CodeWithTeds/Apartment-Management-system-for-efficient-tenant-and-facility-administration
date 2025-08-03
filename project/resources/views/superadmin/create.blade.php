@@ -1,21 +1,12 @@
 <x-superadmin-layout>
     <div x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-50">
-        @include('superadmin.partials.sidebar')
+
         <div class="flex flex-col flex-1">
-            <header class="flex items-center justify-between h-20 px-6 bg-white shadow-md">
-                <button @click="sidebarOpen = !sidebarOpen" class="p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-            </header>
+
             <main class="flex-1 p-6">
                 <h2 class="mb-6 text-3xl font-bold">ADD PROPERTY</h2>
                 <div class="p-6 bg-white rounded-lg shadow-lg">
-                    <form action="{{ route('superadmin.property.store') }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form action="{{ route('superadmin.property.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
                             <div>
@@ -196,8 +187,10 @@
                             <h3 class="text-lg font-medium text-gray-900">Apartment Rules</h3>
                             <div id="rules-container" class="mt-2">
                                 <div class="flex items-center mt-2">
-                                    <input type="text" name="rules[]" class="w-full px-3 py-2 border rounded-md" placeholder="Enter a rule">
-                                    <button type="button" class="ml-2 text-red-500" onclick="removeRule(this)">Remove</button>
+                                    <input type="text" name="rules[]" class="w-full px-3 py-2 border rounded-md"
+                                        placeholder="Enter a rule">
+                                    <button type="button" class="ml-2 text-red-500"
+                                        onclick="removeRule(this)">Remove</button>
                                 </div>
                             </div>
                             <button type="button" id="add-rule" class="mt-2 text-blue-500">Add Rule</button>
@@ -215,7 +208,7 @@
     </div>
 
     <script>
-        document.getElementById('add-rule').addEventListener('click', function () {
+        document.getElementById('add-rule').addEventListener('click', function() {
             const rulesContainer = document.getElementById('rules-container');
             const newRule = document.createElement('div');
             newRule.className = 'flex items-center mt-2';
