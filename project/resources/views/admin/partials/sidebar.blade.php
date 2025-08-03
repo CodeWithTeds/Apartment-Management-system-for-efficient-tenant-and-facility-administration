@@ -10,7 +10,7 @@
         <a href="{{ route('admin.property.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.property.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Apartment</span>
         </a>
-        <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        <a href="{{ route('admin.units.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.units.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Units</span>
         </a>
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">

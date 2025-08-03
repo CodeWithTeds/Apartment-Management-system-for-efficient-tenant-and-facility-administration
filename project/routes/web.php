@@ -11,6 +11,7 @@ use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentCo
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\UnitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
 // Admin routes for property owners
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'])->group(function () {
     Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
+    Route::resource('units', UnitController::class);
 });
 
 require __DIR__.'/auth.php';
