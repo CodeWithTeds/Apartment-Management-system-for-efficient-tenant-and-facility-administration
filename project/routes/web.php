@@ -58,6 +58,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'])->group(function () {
     Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
     Route::resource('units', UnitController::class);
+    Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
 });
 
 require __DIR__.'/auth.php';

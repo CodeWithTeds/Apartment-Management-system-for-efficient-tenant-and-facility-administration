@@ -13,6 +13,9 @@
         <a href="{{ route('admin.units.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.units.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Units</span>
         </a>
+        <a href="{{ route('admin.inquiries.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('admin.inquiries.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+            <span class="font-semibold">Inquiries</span>
+        </a>
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Tenants</span>
         </a>
@@ -22,12 +25,7 @@
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Maintenance Request</span>
         </a>
-        <a href="#"
-            class="flex items-center justify-between px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
-            <span class="font-semibold">Applicant</span>
-            <span
-                class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">2</span>
-        </a>
+    
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Reports</span>
         </a>

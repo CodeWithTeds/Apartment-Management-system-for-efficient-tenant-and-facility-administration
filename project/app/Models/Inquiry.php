@@ -18,6 +18,7 @@ class Inquiry extends Model
         'nights',
         'occupants',
         'message',
+        'status',
     ];
 
     public function apartment()

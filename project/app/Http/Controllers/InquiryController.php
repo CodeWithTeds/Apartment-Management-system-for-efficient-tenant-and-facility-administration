@@ -3,10 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TenantWelcomeMail;
 
 class InquiryController extends Controller
 {
+    public function index()
+    {
+        $inquiries = Inquiry::latest()->paginate(10);
+        return view('admin.inquiries.index', compact('inquiries'));
+    }
+
+    public function show(Inquiry $inquiry)
+    {
+        return view('admin.inquiries.show', compact('inquiry'));
+    }
+
+    public function update(Request $request, Inquiry $inquiry)
+    {
+        $inquiry->update($request->only('status'));
+
+        if ($request->status === 'accepted') {
+            $password = str()->random(8);
+
+            $user = User::firstOrCreate(
+                ['email' => $inquiry->email],
+                [
+                    'name' => $inquiry->full_name,
+                    'password' => bcrypt($password),
+                ]
+            );
+
+            if($user->wasRecentlyCreated) {
+                Mail::to($user->email)->send(new TenantWelcomeMail($user, $password));
+            }
+        }
+
+        return redirect()->route('admin.inquiries.index')->with('success', 'Inquiry status updated successfully.');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
