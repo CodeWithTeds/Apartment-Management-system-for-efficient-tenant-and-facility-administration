@@ -15,6 +15,12 @@ class CheckSubscriptionPayment
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user = $request->user();
+
+        if ($user && $user->subscription && $user->subscription->payment_status === 'pending') {
+            return redirect()->route('dashboard')->with('error', 'Your subscription payment is pending. Please complete the payment to continue.');
+        }
+
         return $next($request);
     }
 }

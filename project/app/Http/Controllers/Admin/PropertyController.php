@@ -106,7 +106,7 @@ class PropertyController extends Controller
             }
         }
 
-        return redirect()->route('admin.property.index')->with('success', 'Property updated successfully.');
+        return redirect()->route('dashboard')->with('success', 'Property updated successfully.');
     }
 
     /**

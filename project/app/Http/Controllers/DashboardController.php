@@ -7,17 +7,11 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    protected $subscriptionService;
-
-    public function __construct(SubscriptionService $subscriptionService)
+    public function __invoke(Request $request)
     {
-        $this->subscriptionService = $subscriptionService;
-    }
-
-    public function __invoke()
-    {
-        $hasPendingPayment = $this->subscriptionService->hasPendingPayment();
-        $properties = auth()->user()->properties;
+        $user = $request->user();
+        $hasPendingPayment = $user->subscription && $user->subscription->payment_status === 'pending';
+        $properties = $user->properties;
 
         return view('dashboard', [
             'hasPendingPayment' => $hasPendingPayment,

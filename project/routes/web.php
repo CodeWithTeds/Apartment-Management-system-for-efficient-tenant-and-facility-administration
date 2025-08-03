@@ -10,6 +10,7 @@ use App\Http\Controllers\SuperAdmin\UsersController;
 use App\Http\Controllers\SuperAdmin\ApartmentController as SuperAdminApartmentController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Admin\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,6 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
-Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
-
 Route::get('/', LandingController::class);
 Route::get('/apartments/{apartment}', [ApartmentController::class, 'show'])->name('apartment.show');
 
@@ -32,7 +30,9 @@ Route::get('dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-
+// Payment routes
+Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
@@ -40,6 +40,7 @@ Route::view('profile', 'profile')
 
 Route::view('become-a-property-owner', 'become-a-property-owner')->name('become-a-property-owner');
 
+// SuperAdmin routes
 Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::get('/login', [App\Http\Controllers\SuperAdmin\Auth\LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [App\Http\Controllers\SuperAdmin\Auth\LoginController::class, 'login']);
@@ -50,8 +51,9 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::resource('subscriptions', App\Http\Controllers\SuperAdmin\SubscriptionController::class)->middleware('auth:superadmin');
 });
 
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-    Route::resource('property', App\Http\Controllers\Admin\PropertyController::class)->parameters(['property' => 'apartment']);
+// Admin routes for property owners
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'])->group(function () {
+    Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
 });
 
 require __DIR__.'/auth.php';

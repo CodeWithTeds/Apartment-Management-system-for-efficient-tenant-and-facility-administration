@@ -5,8 +5,16 @@
         </svg>
     </button>
 
-    <div class="flex items-center">
-        <div class="relative">
+    <div class="flex items-center space-x-4">
+        <!-- Logout Button -->
+        <form method="POST" action="{{ route('logout') }}" class="hidden md:block">
+            @csrf
+            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                Logout
+            </button>
+        </form>
+        
+        <div class="relative" x-data="{ dropdownOpen: false }">
             <button @click="dropdownOpen = !dropdownOpen" class="flex items-center space-x-2">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&background=0D8ABC&color=fff" alt="avatar" class="w-10 h-10 rounded-full">
                 <div>
@@ -29,4 +37,4 @@
             </div>
         </div>
     </div>
-</header> 
+</header>

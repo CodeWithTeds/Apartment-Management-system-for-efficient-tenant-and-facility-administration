@@ -40,7 +40,6 @@ class PropertyController extends Controller
             'capacity' => 'required|string',
             'rent_type' => 'required|string',
             'pet_policy' => 'required|string',
-            'price' => 'required|numeric',
             'description' => 'required|string',
             'property_type' => 'required|string',
             'amenities' => 'required|string',
@@ -58,7 +57,11 @@ class PropertyController extends Controller
             'short_term_minimum_stay' => 'nullable|integer',
         ]);
 
-        $apartment = new Apartment($request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']));
+        // Create a new request with the price field set to monthly_price or 0
+        $data = $request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']);
+        $data['price'] = $request->input('monthly_price', 0);
+
+        $apartment = new Apartment($data);
 
         for ($i = 1; $i <= 5; $i++) {
             if ($request->hasFile('image' . $i)) {
@@ -113,7 +116,6 @@ class PropertyController extends Controller
             'capacity' => 'required|string',
             'rent_type' => 'required|string',
             'pet_policy' => 'required|string',
-            'price' => 'required|numeric',
             'description' => 'required|string',
             'property_type' => 'required|string',
             'amenities' => 'required|string',
@@ -131,7 +133,18 @@ class PropertyController extends Controller
             'short_term_minimum_stay' => 'nullable|integer',
         ]);
 
-        $apartment->fill($request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']));
+        // Get all the data except for images and rules
+        $data = $request->except(['image1', 'image2', 'image3', 'image4', 'image5', 'rules']);
+        
+        // Ensure price is set to a valid value (use monthly_price, or 0 if not provided)
+        if (!isset($data['price']) || $data['price'] === null) {
+            $data['price'] = $request->input('monthly_price', 0);
+            if ($data['price'] === null) {
+                $data['price'] = 0; // Default to 0 if both price and monthly_price are null
+            }
+        }
+
+        $apartment->fill($data);
 
         for ($i = 1; $i <= 5; $i++) {
             if ($request->hasFile('image' . $i)) {

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Laravel') }} - SuperAdmin</title>
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -29,16 +29,18 @@
         
     </head>
     <body class="font-sans antialiased">
-        <div x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-100">
+        <div x-data="{ sidebarOpen: true, dropdownOpen: false }" class="flex h-screen bg-gray-100">
+            <!-- SuperAdmin Sidebar -->
             @include('superadmin.partials.sidebar')
 
             <div class="flex flex-col flex-1">
+                <!-- SuperAdmin Header -->
                 @include('superadmin.partials.header')
 
                 <main class="h-full pb-16 overflow-y-auto">
                     <div class="container grid px-6 mx-auto">
                         <h2 class="my-6 text-2xl font-semibold text-gray-700">
-                            {{ $title ?? '' }}
+                            {{ $title ?? 'SuperAdmin Dashboard' }}
                         </h2>
                         {{ $slot }}
                     </div>
@@ -46,4 +48,4 @@
             </div>
         </div>
     </body>
-</html> 
+</html>

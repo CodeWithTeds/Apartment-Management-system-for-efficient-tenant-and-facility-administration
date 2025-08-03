@@ -37,6 +37,11 @@ class ApartmentPolicy
      */
     public function update(User $user, Apartment $apartment): bool
     {
+        // Check if user has a pending subscription payment
+        if ($user->subscription && $user->subscription->payment_status === 'pending') {
+            return false;
+        }
+        
         return $user->id === $apartment->admin_id;
     }
 
@@ -45,6 +50,11 @@ class ApartmentPolicy
      */
     public function delete(User $user, Apartment $apartment): bool
     {
+        // Check if user has a pending subscription payment
+        if ($user->subscription && $user->subscription->payment_status === 'pending') {
+            return false;
+        }
+        
         return $user->id === $apartment->admin_id;
     }
 

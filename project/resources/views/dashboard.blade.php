@@ -51,23 +51,35 @@
                                 {{ $property->address }}
                             </p>
                         </div>
-                        <a href="{{ route('admin.property.edit', $property) }}" class="px-6 py-3 text-sm font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200">Edit Property</a>
+                        @if(!$hasPendingPayment)
+                            <a href="{{ route('admin.property.edit', $property) }}" class="px-6 py-3 text-sm font-bold text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200">Edit Property</a>
+                        @else
+                            <button disabled class="px-6 py-3 text-sm font-bold text-white bg-gray-400 rounded-lg shadow-md cursor-not-allowed">Edit Property</button>
+                        @endif
                     </div>
 
-                    <div class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2">
-                            @if($property->image1)
-                                <img src="{{ asset('images/apartments/' . $property->image1) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg">
-                            @endif
+                                        <div class="mt-6">
+                        @if($property->image1)
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <img src="{{ asset('images/apartments/' . $property->image1) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg aspect-[4/3]">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                @if($property->image2)
+                                    <img src="{{ asset('images/apartments/' . $property->image2) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg aspect-square">
+                                @endif
+                                @if($property->image3)
+                                    <img src="{{ asset('images/apartments/' . $property->image3) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg aspect-square">
+                                @endif
+                                @if($property->image4)
+                                    <img src="{{ asset('images/apartments/' . $property->image4) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg aspect-square">
+                                @endif
+                                @if($property->image5)
+                                    <img src="{{ asset('images/apartments/' . $property->image5) }}" alt="Apartment Image" class="w-full h-full object-cover rounded-xl shadow-lg aspect-square">
+                                @endif
+                            </div>
                         </div>
-                        <div class="grid grid-cols-1 gap-6">
-                            @if($property->image2)
-                                <img src="{{ asset('images/apartments/' . $property->image2) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-xl shadow-lg">
-                            @endif
-                            @if($property->image3)
-                                <img src="{{ asset('images/apartments/' . $property->image3) }}" alt="Apartment Image" class="w-full h-48 object-cover rounded-xl shadow-lg">
-                            @endif
-                        </div>
+                        @endif
                     </div>
 
                     <div class="mt-8 border-t border-gray-200 pt-8">
