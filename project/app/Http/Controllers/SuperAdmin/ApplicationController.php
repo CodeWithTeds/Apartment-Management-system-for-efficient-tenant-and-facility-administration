@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationApprovedMail;
 
+use Illuminate\Support\Facades\Log;
+
 class ApplicationController extends Controller
 {
     public function index()
@@ -32,17 +34,18 @@ class ApplicationController extends Controller
 
         if ($request->status == 'approved' && $application->application_status != 'approved') {
             $password = Str::random(12);
-            
+            $userData = [
+                'name' => $application->full_name,
+                'password' => Hash::make($password),
+                'role' => 'owner',
+            ];
+
+            Log::info('Creating or updating user', ['email' => $application->email, 'data' => $userData]);
+
             $user = User::updateOrCreate(
                 ['email' => $application->email],
-                [
-                    'name' => $application->full_name,
-                    'password' => Hash::make($password),
-                ]
+                $userData
             );
-
-            // Assign a role to the user, e.g., 'owner'
-            // $user->assignRole('owner'); // Uncomment and adjust if you have a role system
 
             Mail::to($user->email)->send(new ApplicationApprovedMail($user, $password));
         }

@@ -14,7 +14,7 @@ class UnitRepository
      */
     public function getAllForAdmin(int $adminId): Collection
     {
-        return Unit::where('admin_id', $adminId)
+        return Unit::with('inquiry.user')->where('admin_id', $adminId)
             ->orderBy('unit_number')
             ->get();
     }
@@ -73,7 +73,7 @@ class UnitRepository
      */
     public function getByAvailability(string $status, int $adminId): Collection
     {
-        return Unit::where('admin_id', $adminId)
+        return Unit::with('inquiry.user')->where('admin_id', $adminId)
             ->where('availability', $status)
             ->orderBy('unit_number')
             ->get();

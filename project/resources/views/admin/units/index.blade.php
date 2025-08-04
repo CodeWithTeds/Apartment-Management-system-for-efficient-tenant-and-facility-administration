@@ -113,6 +113,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Rent Price
                         </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Current Tenant 
+                        </th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
                         </th>
@@ -136,7 +139,7 @@
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
                                         Occupied
                                     </span>
-                                @else
+                                @elseif($unit->availability === 'Maintenance')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
                                         Maintenance
                                     </span>
@@ -145,9 +148,15 @@
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">P{{ number_format($unit->rent_price, 2) }}</div>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-500">{{ $unit->inquiry ? $unit->inquiry->full_name : 'No tenant assigned' }}</div>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <a href="{{ route('admin.units.show', $unit) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
                                 <a href="{{ route('admin.units.edit', $unit) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
+                                @if($unit->availability === 'Available')
+                                    <a href="{{ route('admin.units.assign', $unit) }}" class="text-green-600 hover:text-green-900 mr-3">Assign Tenant</a>
+                                @endif
                                 <form action="{{ route('admin.units.destroy', $unit) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
@@ -157,7 +166,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">
+                            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-center text-gray-500">
                                 No units found.
                             </td>
                         </tr>

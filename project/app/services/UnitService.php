@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Inquiry;
 use App\Models\Unit;
 use App\Repositories\UnitRepository;
 use Illuminate\Database\Eloquent\Collection;

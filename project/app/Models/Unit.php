@@ -21,6 +21,7 @@ class Unit extends Model
         'rent_price',
         'description',
         'admin_id',
+        'inquiry_id',
     ];
 
     /**
@@ -29,5 +30,13 @@ class Unit extends Model
     public function admin()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    /**
+     * Get the tenant that occupies the unit.
+     */
+    public function inquiry()
+    {
+        return $this->belongsTo(Inquiry::class);
     }
 }

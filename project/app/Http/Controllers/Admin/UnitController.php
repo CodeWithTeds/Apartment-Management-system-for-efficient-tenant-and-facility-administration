@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnitRequest;
+use App\Models\Inquiry;
 use App\Models\Unit;
 use App\Services\UnitService;
 use Illuminate\Http\Request;
@@ -83,8 +84,10 @@ class UnitController extends Controller
         if ($unit->admin_id !== Auth::id()) {
             abort(403, 'Unauthorized action.');
         }
+
+        $tenants = Inquiry::with('user')->where('status', 'accepted')->get();
         
-        return view('admin.units.edit', compact('unit'));
+        return view('admin.units.edit', compact('unit', 'tenants'));
     }
 
     /**

@@ -70,6 +70,18 @@
                     @enderror
                 </div>
 
+                <div class="mb-6">
+                    <label for="inquiry_id" class="block text-sm font-medium text-gray-700 mb-1">Assign Tenant</label>
+                    <select name="inquiry_id" id="inquiry_id" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Select Tenant</option>
+                        @foreach ($tenants as $tenant)
+                            <option value="{{ $tenant->id }}" {{ old('inquiry_id', $unit->inquiry_id) == $tenant->id ? 'selected' : '' }}>
+                                {{ $tenant->full_name }} ({{ $tenant->email }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="flex justify-end">
                     <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
                         Update Unit

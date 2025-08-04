@@ -25,4 +25,9 @@ class Inquiry extends Model
     {
         return $this->belongsTo(Apartment::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'email', 'email');
+    }
 }

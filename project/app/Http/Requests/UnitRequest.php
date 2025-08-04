@@ -29,6 +29,7 @@ class UnitRequest extends FormRequest
             'rent_price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'admin_id' => 'sometimes|exists:users,id',
+            'inquiry_id' => 'nullable|exists:inquiries,id',
         ];
     }
 

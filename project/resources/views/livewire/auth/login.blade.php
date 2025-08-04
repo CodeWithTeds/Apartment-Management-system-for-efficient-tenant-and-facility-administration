@@ -42,7 +42,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         $user = Auth::user();
 
-        if ($user->role === 'admin') {
+        if ($user->role === 'admin' || $user->role === 'owner') {
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
         } else {
             $this->redirectIntended(default: route('tenant.dashboard', absolute: false), navigate: true);

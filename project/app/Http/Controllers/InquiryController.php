@@ -36,9 +36,7 @@ class InquiryController extends Controller
                 ]
             );
 
-            if($user->wasRecentlyCreated) {
-                Mail::to($user->email)->send(new TenantWelcomeMail($user, $password));
-            }
+            Mail::to($user->email)->send(new TenantWelcomeMail($user, $password));
         }
 
         return redirect()->route('admin.inquiries.index')->with('success', 'Inquiry status updated successfully.');
