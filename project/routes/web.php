@@ -61,4 +61,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
 });
 
+Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('tenant.dashboard');
+    })->name('dashboard');
+});
+
 require __DIR__.'/auth.php';
