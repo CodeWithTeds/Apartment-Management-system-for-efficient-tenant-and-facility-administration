@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Interfaces\Payable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Subscription extends Model
+class Subscription extends Model implements Payable
 {
     use HasFactory;
 
@@ -35,5 +36,35 @@ class Subscription extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function getPayableName()
+    {
+        return $this->user->name;
+    }
+
+    public function getPayableEmail()
+    {
+        return $this->billing_email;
+    }
+
+    public function getPayableAmount()
+    {
+        return $this->amount;
+    }
+
+    public function getPayableDescription()
+    {
+        return $this->subscription_plan . ' Subscription';
+    }
+
+    public function getSuccessUrl()
+    {
+        return route('payment.success') . '?subscription_id=' . $this->id;
+    }
+
+    public function getCancelUrl()
+    {
+        return route('payment.cancel') . '?subscription_id=' . $this->id;
     }
 }

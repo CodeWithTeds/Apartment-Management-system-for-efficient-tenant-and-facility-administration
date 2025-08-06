@@ -10,10 +10,21 @@ use App\Mail\TenantWelcomeMail;
 
 class InquiryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $inquiries = Inquiry::latest()->paginate(10);
-        return view('admin.inquiries.index', compact('inquiries'));
+        $filter = $request->input('filter');
+
+        $inquiries = Inquiry::query();
+
+        if ($filter === 'accepted') {
+            $inquiries->where('status', 'accepted');
+        } elseif ($filter === 'pending') {
+            $inquiries->where('status', 'pending');
+        }
+
+        $inquiries = $inquiries->latest()->paginate(10);
+
+        return view('admin.inquiries.index', compact('inquiries', 'filter'));
     }
 
     public function show(Inquiry $inquiry)

@@ -3,12 +3,19 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\PayMongoService;
+use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+    protected $payMongoService;
+
+    public function __construct(PayMongoService $payMongoService)
+    {
+        $this->payMongoService = $payMongoService;
+    }
     public function index(Request $request)
     {
         $query = Subscription::with('user')->latest();
@@ -54,7 +61,7 @@ class SubscriptionController extends Controller
 
         $subscription = Subscription::create($data);
 
-        $paymentLink = $this->paymongo($subscription);
+        $paymentLink = $this->payMongoService->createCheckoutSession($subscription);
 
         if ($paymentLink) {
             // Store the payment link directly in the payment_link field
@@ -99,42 +106,5 @@ class SubscriptionController extends Controller
         $subscription->delete();
 
         return redirect()->route('superadmin.subscriptions.index')->with('success', 'Subscription deleted successfully.');
-    }
-
-    private function paymongo(Subscription $subscription)
-    {
-        $response = \Illuminate\Support\Facades\Http::withHeaders([
-            'Authorization' => 'Basic ' . base64_encode(config('services.paymongo.secret_key') . ':'),
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ])->post('https://api.paymongo.com/v1/checkout_sessions', [
-            'data' => [
-                'attributes' => [
-                    'billing' => [
-                        'name' => $subscription->user->name,
-                        'email' => $subscription->billing_email,
-                    ],
-                    'line_items' => [
-                        [
-                            'currency' => 'PHP',
-                            'amount' => $subscription->amount * 100,
-                            'name' => $subscription->subscription_plan . ' Subscription',
-                            'quantity' => 1,
-                        ]
-                    ],
-                    'payment_method_types' => ['gcash'],
-                    'description' => 'Subscription for ' . $subscription->subscription_plan,
-                    'success_url' => route('payment.success') . '?subscription_id=' . $subscription->id,
-                    'cancel_url' => route('payment.cancel') . '?subscription_id=' . $subscription->id,
-                ],
-            ],
-        ]);
-
-        if ($response->successful() && isset($response->json()['data']['attributes']['checkout_url'])) {
-            return $response->json()['data']['attributes']['checkout_url'];
-        }
-
-        \Illuminate\Support\Facades\Log::error('PayMongo API Error: ' . $response->body());
-        return null;
     }
 }
