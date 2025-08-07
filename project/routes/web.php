@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\SuperAdmin\ReportController;
+use App\Http\Controllers\SuperAdmin\AgreementController;
+use App\Http\Controllers\Admin\AgreementController as AdminAgreementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,7 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::resource('subscriptions', App\Http\Controllers\SuperAdmin\SubscriptionController::class)->middleware('auth:superadmin');
     Route::resource('reports', ReportController::class)->middleware('auth:superadmin');
     Route::post('reports/{report}/generate', [ReportController::class, 'generate'])->name('reports.generate')->middleware('auth:superadmin');
+    Route::resource('agreements', AgreementController::class)->middleware('auth:superadmin');
 });
 
 // Admin routes for property owners
@@ -65,6 +68,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::resource('units', UnitController::class);
     Route::resource('payments', AdminPaymentController::class)->only(['index', 'create', 'store']);
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
+    Route::resource('agreements', AdminAgreementController::class)->only(['index', 'show']);
+    Route::post('agreements/{agreement}/acknowledge', [AdminAgreementController::class, 'acknowledge'])->name('agreements.acknowledge');
+    Route::post('agreements/{agreement}/reject', [AdminAgreementController::class, 'reject'])->name('agreements.reject');
 });
 
 Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function () {

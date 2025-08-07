@@ -30,7 +30,9 @@
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Reports</span>
         </a>
-        <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        <a href="{{ route('admin.agreements.index') }}"
+            class="flex items-center px-4 py-3 rounded-lg
+                  {{ request()->routeIs('admin.agreements.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Lease Agreements</span>
         </a>
     </nav>
