@@ -54,7 +54,6 @@
                     <select id="format" name="format" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                         <option value="pdf">PDF</option>
                         <option value="csv">CSV</option>
-                        <option value="xlsx">XLSX</option>
                     </select>
                 </div>
                 <div class="mt-6">

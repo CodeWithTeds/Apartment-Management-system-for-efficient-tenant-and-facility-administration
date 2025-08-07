@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\SuperAdmin;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Report;
 use App\Models\SuperAdmin;
@@ -64,18 +65,62 @@ class ReportController extends Controller
             'format' => $request->format,
             'assignable_id' => $assignable_id,
             'assignable_type' => $assignable_type,
+            'status' => 'pending',
         ]);
 
-        // Here you would typically queue a job to generate the report
-        // For now, we'll just mark it as completed for demonstration purposes
+        $this->generateReport($report);
+
+        return redirect()->route('superadmin.reports.index')->with('success', 'Report generation started.');
+    }
+
+    public function generate(Report $report)
+    {
+        $this->generateReport($report);
+        return redirect()->route('superadmin.reports.index')->with('success', 'Report regenerated successfully.');
+    }
+
+    private function generateReport(Report $report)
+    {
+        $format = $report->format;
+        $filename = 'report-' . $report->id . '.' . $format;
+        $path = public_path('reports/' . $filename);
+        $url = asset('reports/' . $filename);
+
+        if ($format === 'pdf') {
+            $pdf = Pdf::loadView('superadmin.reports.report-template', compact('report'));
+            $pdf->save($path);
+        } else {
+            $content = $this->generateCsvContent($report);
+            file_put_contents($path, $content);
+        }
 
         $report->update([
             'status' => 'completed',
-            'file_path' => '/path/to/dummy/report.'.$request->format,
+            'file_path' => $url,
             'completed_at' => now(),
         ]);
+    }
 
-        return redirect()->route('superadmin.reports.index')->with('success', 'Report generated successfully.');
+    private function generateCsvContent(Report $report)
+    {
+        $data = [
+            ['Report Name', $report->report_name],
+            ['Report Type', $report->report_type],
+            ['Date Range', $report->date_range],
+            ['Start Date', $report->start_date ? $report->start_date->format('Y-m-d') : 'N/A'],
+            ['End Date', $report->end_date ? $report->end_date->format('Y-m-d') : 'N/A'],
+            ['Description', $report->description],
+        ];
+
+        $handle = fopen('php://temp', 'r+');
+        foreach ($data as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+        $csv = stream_get_contents($handle);
+        fclose($handle);
+
+        return $csv;
     }
 
     /**

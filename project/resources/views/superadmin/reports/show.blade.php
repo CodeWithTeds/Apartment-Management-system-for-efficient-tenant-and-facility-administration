@@ -9,16 +9,6 @@
             
         </div>
     </div>
-    @push('scripts')
-    <script>
-        document.getElementById('date_range').addEventListener('change', function () {
-            if (this.value === 'custom') {
-                document.getElementById('custom_date_range').style.display = 'block';
-            } else {
-                document.getElementById('custom_date_range').style.display = 'none';
-            }
-        });
-    </script>
-    @endpush
+    
 </x-superadmin-layout>
 
