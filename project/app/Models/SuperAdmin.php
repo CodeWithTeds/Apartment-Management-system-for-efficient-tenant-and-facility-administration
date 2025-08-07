@@ -20,4 +20,9 @@ class SuperAdmin extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'admin_id');
+    }
 }
