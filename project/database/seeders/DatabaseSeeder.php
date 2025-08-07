@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SuperAdminSeeder::class,
             ApartmentSeeder::class,
+            ReportSeeder::class,
+            AgreementSeeder::class,
         ]);
     }
 }
