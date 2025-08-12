@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 use App\Http\Controllers\Admin\MaintenanceRequestController as AdminMaintenanceRequestController;
+use App\Http\Controllers\Admin\TenantReportController as AdminTenantReportController;
 use App\Http\Controllers\Tenant\PaymentController as TenantPaymentController;
 use App\Http\Controllers\Tenant\MaintenanceRequestController as TenantMaintenanceRequestController;
 use App\Http\Controllers\SuperAdmin\ReportController;
@@ -72,6 +73,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::resource('payments', AdminPaymentController::class)->only(['index', 'create', 'store']);
     Route::get('maintenance', [AdminMaintenanceRequestController::class, 'index'])->name('maintenance.index');
     Route::patch('maintenance/{maintenance_request}', [AdminMaintenanceRequestController::class, 'update'])->name('maintenance.update');
+    Route::prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', [AdminTenantReportController::class, 'index'])->name('index');
+        Route::get('/create', [AdminTenantReportController::class, 'create'])->name('create');
+        Route::post('/', [AdminTenantReportController::class, 'store'])->name('store');
+    });
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
     Route::resource('agreements', AdminAgreementController::class)->only(['index', 'show']);
     Route::post('agreements/{agreement}/acknowledge', [AdminAgreementController::class, 'acknowledge'])->name('agreements.acknowledge');
@@ -96,6 +102,7 @@ Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function (
     // Routes that require payment
     Route::middleware('check.tenant.payment')->group(function () {
         Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments.index');
+        Route::get('/reports', [\App\Http\Controllers\Tenant\ReportController::class, 'index'])->name('reports.index');
         Route::get('/dashboard', function () {
             /** @var \App\Models\User $user */
             $user = \Illuminate\Support\Facades\Auth::user();

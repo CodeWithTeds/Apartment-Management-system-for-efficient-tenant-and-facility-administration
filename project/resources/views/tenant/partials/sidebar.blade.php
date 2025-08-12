@@ -16,7 +16,7 @@
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
             <span class="font-semibold">Lease Agreement</span>
         </a>
-        <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        <a href="{{ route('tenant.reports.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.reports.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Reports</span>
         </a>
     </nav>
