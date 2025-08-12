@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
+use App\Http\Controllers\Tenant\PaymentController as TenantPaymentController;
 use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\AgreementController;
 use App\Http\Controllers\Admin\AgreementController as AdminAgreementController;
@@ -73,10 +74,31 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::post('agreements/{agreement}/reject', [AdminAgreementController::class, 'reject'])->name('agreements.reject');
 });
 
+// Register the middleware
 Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('tenant.dashboard');
-    })->name('dashboard');
+    // Payment required route - accessible even without payments
+    Route::get('/payment-required', function () {
+        $user = auth()->user();
+        $pendingPayment = $user->payments()->where('status', 'pending')->latest()->first();
+        return view('tenant.payment-required', compact('pendingPayment'));
+    })->name('payment.required');
+    
+    // Routes that require payment
+    Route::middleware('check.tenant.payment')->group(function () {
+        Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments.index');
+        Route::get('/dashboard', function () {
+            $user = auth()->user();
+            $payments = $user->payments()->latest()->get();
+            $latestPayment = $payments->first();
+            $paymentHistory = $payments->take(5);
+            
+            return view('tenant.dashboard', [
+                'payments' => $payments,
+                'latestPayment' => $latestPayment,
+                'paymentHistory' => $paymentHistory
+            ]);
+        })->name('dashboard');
+    });
 });
 
 require __DIR__.'/auth.php';

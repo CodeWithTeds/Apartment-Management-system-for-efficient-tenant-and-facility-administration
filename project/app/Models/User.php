@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Apartment::class, 'admin_id');
     }
+    
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'tenant_id');
+    }
 }

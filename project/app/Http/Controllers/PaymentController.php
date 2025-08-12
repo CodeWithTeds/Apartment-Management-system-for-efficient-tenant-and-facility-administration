@@ -24,7 +24,11 @@ class PaymentController extends Controller
 
             if ($payment) {
                 $payment->update(['status' => 'paid']);
-                return redirect()->route('admin.payments.index')->with('success', 'Payment successful!');
+                // If the payer is a tenant, send them to their dashboard; otherwise, admin payments index
+                $redirectRoute = optional($payment->tenant)->id === optional(auth()->user())->id
+                    ? 'tenant.dashboard'
+                    : 'admin.payments.index';
+                return redirect()->route($redirectRoute)->with('success', 'Payment successful!');
             }
         }
 
@@ -47,7 +51,10 @@ class PaymentController extends Controller
 
             if ($payment) {
                 $payment->update(['status' => 'failed']);
-                return redirect()->route('admin.payments.index')->with('error', 'Payment was cancelled.');
+                $redirectRoute = optional($payment->tenant)->id === optional(auth()->user())->id
+                    ? 'tenant.dashboard'
+                    : 'admin.payments.index';
+                return redirect()->route($redirectRoute)->with('error', 'Payment was cancelled.');
             }
         }
 
