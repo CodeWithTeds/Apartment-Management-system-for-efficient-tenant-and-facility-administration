@@ -71,6 +71,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::resource('units', UnitController::class);
     Route::resource('payments', AdminPaymentController::class)->only(['index', 'create', 'store']);
     Route::get('maintenance', [AdminMaintenanceRequestController::class, 'index'])->name('maintenance.index');
+    Route::patch('maintenance/{maintenance_request}', [AdminMaintenanceRequestController::class, 'update'])->name('maintenance.update');
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
     Route::resource('agreements', AdminAgreementController::class)->only(['index', 'show']);
     Route::post('agreements/{agreement}/acknowledge', [AdminAgreementController::class, 'acknowledge'])->name('agreements.acknowledge');
