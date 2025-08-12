@@ -36,13 +36,6 @@
             <span class="font-medium">Properties</span>
         </a>
 
-        <!-- Users -->
-        <a href="#" class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group text-blue-100 hover:bg-blue-700 hover:text-white">
-            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
-            </svg>
-            <span class="font-medium">Users</span>
-        </a>
 
         <!-- Applicants -->
         <a href="{{ route('superadmin.applications.index') }}"

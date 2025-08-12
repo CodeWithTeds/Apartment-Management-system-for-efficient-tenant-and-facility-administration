@@ -6,19 +6,19 @@
         <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 lg:grid-cols-4">
             <div class="p-6 text-white bg-blue-500 rounded-lg shadow-lg">
                 <h3 class="text-lg">Total Property</h3>
-                <p class="text-4xl font-bold">6</p>
+                <p class="text-4xl font-bold">{{ $totalProperties }}</p>
             </div>
             <div class="p-6 bg-white rounded-lg shadow-lg">
                 <h3 class="text-lg text-gray-600">Total Unit</h3>
-                <p class="text-4xl font-bold text-gray-800">72</p>
+                <p class="text-4xl font-bold text-gray-800">{{ $totalUnits }}</p>
             </div>
             <div class="p-6 bg-white rounded-lg shadow-lg">
                 <h3 class="text-lg text-gray-600">Total Tenants</h3>
-                <p class="text-4xl font-bold text-gray-800">52</p>
+                <p class="text-4xl font-bold text-gray-800">{{ $totalTenants }}</p>
             </div>
             <div class="p-6 bg-white rounded-lg shadow-lg">
                 <h3 class="text-lg text-gray-600">Total Admins</h3>
-                <p class="text-4xl font-bold text-gray-800">6</p>
+                <p class="text-4xl font-bold text-gray-800">{{ $totalAdmins }}</p>
             </div>
         </div>
 
@@ -31,28 +31,22 @@
                         <th class="pb-2">Apartment Name</th>
                         <th class="pb-2">Admin</th>
                         <th class="pb-2">Total Units</th>
-                        <th class="pb-2">Units Occupied</th>
+                     
                         <th class="pb-2">Monthly Income</th>
                         <th class="pb-2">Status</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($apartments as $apartment)
                     <tr class="border-t">
-                        <td class="py-2">ARCO APARTMENT</td>
-                        <td class="py-2">John Doe Arco</td>
-                        <td class="py-2">10</td>
-                        <td class="py-2">7</td>
-                        <td class="py-2">P24,500.00</td>
-                        <td class="py-2 text-green-500">Active</td>
+                        <td class="py-2">{{ $apartment->name }}</td>
+                        <td class="py-2">{{ $apartment->owner->name ?? 'N/A' }}</td>
+                        <td class="py-2">{{ $apartment->total_units }}</td>
+                      
+                        <td class="py-2">${{ number_format($apartment->monthly_price, 2) }}</td>
+                        <td class="py-2 text-green-500">{{ ucfirst($apartment->status) }}</td>
                     </tr>
-                    <tr class="border-t">
-                        <td class="py-2">MARK APARTMENT</td>
-                        <td class="py-2">Mark Dicierra</td>
-                        <td class="py-2">7</td>
-                        <td class="py-2">5</td>
-                        <td class="py-2">P15,800.00</td>
-                        <td class="py-2 text-green-500">Active</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -71,22 +65,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($subscriptions as $subscription)
                     <tr class="border-t">
-                        <td class="py-2">John Doe Arco</td>
-                        <td class="py-2">JoArco@gmail.com</td>
-                        <td class="py-2 text-green-500">Active</td>
-                        <td class="py-2">2025-05-15</td>
-                        <td class="py-2">2025-04-15</td>
+                        <td class="py-2">{{ $subscription->user->name ?? 'N/A' }}</td>
+                        <td class="py-2">{{ $subscription->user->email ?? 'N/A' }}</td>
+                        <td class="py-2 text-green-500">{{ ucfirst($subscription->payment_status) }}</td>
+                        <td class="py-2">{{ $subscription->renewal_date ? \Carbon\Carbon::parse($subscription->renewal_date)->format('Y-m-d') : 'N/A' }}</td>
+                        <td class="py-2">{{ $subscription->last_payment_date ? \Carbon\Carbon::parse($subscription->last_payment_date)->format('Y-m-d') : 'N/A' }}</td>
                     </tr>
-                     <tr class="border-t">
-                        <td class="py-2">Mark Dicierra</td>
-                        <td class="py-2">MaDicie@gmail.com</td>
-                        <td class="py-2 text-green-500">Active</td>
-                        <td class="py-2">2025-05-25</td>
-                        <td class="py-2">2025-04-25</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </main>
-</x-superadmin-layout> 
+</x-superadmin-layout>

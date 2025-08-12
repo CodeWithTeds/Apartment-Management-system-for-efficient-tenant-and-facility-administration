@@ -22,6 +22,7 @@ class Unit extends Model
         'description',
         'admin_id',
         'inquiry_id',
+        'apartment_id',
     ];
 
     /**
@@ -38,5 +39,10 @@ class Unit extends Model
     public function inquiry()
     {
         return $this->belongsTo(Inquiry::class);
+    }
+
+    public function apartment()
+    {
+        return $this->belongsTo(Apartment::class);
     }
 }

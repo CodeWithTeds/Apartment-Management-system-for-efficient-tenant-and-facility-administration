@@ -45,4 +45,9 @@ class Apartment extends Model
     {
         return $this->hasMany(ApartmentRule::class);
     }
+
+    public function units()
+    {
+        return $this->hasMany(Unit::class);
+    }
 }
