@@ -10,7 +10,7 @@
         <a href="{{ route('tenant.payments.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.payments.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Payments</span>
         </a>
-        <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+        <a href="{{ route('tenant.maintenance.index') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.maintenance.*') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
             <span class="font-semibold">Maintenance Request</span>
         </a>
         <a href="#" class="flex items-center px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">

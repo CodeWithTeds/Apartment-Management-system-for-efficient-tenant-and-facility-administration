@@ -15,7 +15,9 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UnitController;
 use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
+use App\Http\Controllers\Admin\MaintenanceRequestController as AdminMaintenanceRequestController;
 use App\Http\Controllers\Tenant\PaymentController as TenantPaymentController;
+use App\Http\Controllers\Tenant\MaintenanceRequestController as TenantMaintenanceRequestController;
 use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\AgreementController;
 use App\Http\Controllers\Admin\AgreementController as AdminAgreementController;
@@ -68,6 +70,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
     Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
     Route::resource('units', UnitController::class);
     Route::resource('payments', AdminPaymentController::class)->only(['index', 'create', 'store']);
+    Route::get('maintenance', [AdminMaintenanceRequestController::class, 'index'])->name('maintenance.index');
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
     Route::resource('agreements', AdminAgreementController::class)->only(['index', 'show']);
     Route::post('agreements/{agreement}/acknowledge', [AdminAgreementController::class, 'acknowledge'])->name('agreements.acknowledge');
@@ -78,16 +81,23 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
 Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function () {
     // Payment required route - accessible even without payments
     Route::get('/payment-required', function () {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = \Illuminate\Support\Facades\Auth::user();
         $pendingPayment = $user->payments()->where('status', 'pending')->latest()->first();
         return view('tenant.payment-required', compact('pendingPayment'));
     })->name('payment.required');
     
+    // Maintenance requests
+    Route::get('/maintenance', [TenantMaintenanceRequestController::class, 'index'])->name('maintenance.index');
+    Route::get('/maintenance/create', [TenantMaintenanceRequestController::class, 'create'])->name('maintenance.create');
+    Route::post('/maintenance', [TenantMaintenanceRequestController::class, 'store'])->name('maintenance.store');
+
     // Routes that require payment
     Route::middleware('check.tenant.payment')->group(function () {
         Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments.index');
         Route::get('/dashboard', function () {
-            $user = auth()->user();
+            /** @var \App\Models\User $user */
+            $user = \Illuminate\Support\Facades\Auth::user();
             $payments = $user->payments()->latest()->get();
             $latestPayment = $payments->first();
             $paymentHistory = $payments->take(5);

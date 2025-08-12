@@ -155,7 +155,7 @@
                                 <a href="{{ route('admin.units.show', $unit) }}" class="text-blue-600 hover:text-blue-900 mr-3">View</a>
                                 <a href="{{ route('admin.units.edit', $unit) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
                                 @if($unit->availability === 'Available')
-                                    <a href="{{ route('admin.units.assign', $unit) }}" class="text-green-600 hover:text-green-900 mr-3">Assign Tenant</a>
+                                    <a href="{{ route('admin.units.edit', $unit) }}" class="text-green-600 hover:text-green-900 mr-3">Assign Tenant</a>
                                 @endif
                                 <form action="{{ route('admin.units.destroy', $unit) }}" method="POST" class="inline">
                                     @csrf
