@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hyslop | Apartment Management System</title>
+    <title>Hyslop | Find Your Perfect Apartment</title>
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 
     <!-- Fonts -->
@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         body {
@@ -28,9 +29,24 @@
             opacity: 1;
             transform: translateY(0);
         }
+        .search-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .tab-active {
+            color: #5392F9;
+            border-bottom: 3px solid #5392F9;
+        }
+        .primary-btn {
+            background-color: #5392F9;
+        }
+        .primary-btn:hover {
+            background-color: #4180E6;
+        }
     </style>
 </head>
-<body class="bg-gray-50" x-data="{}" x-init="
+<body class="bg-gray-50" x-data="{activeTab: 'apartments', checkIn: '', checkOut: '', guests: 2}" x-init="
     let observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -43,15 +59,31 @@
         observer.observe(el);
     });
 ">
-    <x-header />
+    <!-- Header with blue background like Agoda -->
+    <header class="bg-[#5392F9] shadow-md">
+        <nav class="mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="{{ asset('images/logo.png') }}" alt="Hyslop Logo" class="h-12">
+            </div>
+            <div class="flex items-center space-x-8">
+                <a href="/" class="text-black hover:text-gray-700 font-semibold tracking-wide">HOME</a>
+                <a href="{{ route('become-a-property-owner') }}" class="text-black hover:text-gray-700 font-semibold tracking-wide">BECOME A PROPERTY OWNER</a>
 
-    <!-- Hero Section -->
-    <section class="relative bg-cover bg-center" style="background-image: url('{{ asset('images/hero.png') }}'); height: 443px;">
+                <a href="#" class="text-black hover:text-gray-700 font-semibold tracking-wide">LOGIN</a>
 
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section with Search Box -->
+    <section class="relative bg-cover bg-center" style="background-image: url('{{ asset('images/hero.png') }}'); height: 500px;">
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div class="relative z-10 flex flex-col items-start justify-center h-full max-w-6xl mx-auto text-white px-6">
-            <h1 class="text-4xl font-bold uppercase tracking-wider fade-in-up">Hyslop Apartment Management System</h1>
-            <p class="mt-4 text-lg max-w-xl fade-in-up" style="animation-delay: 0.2s;">Hyslop helps property managers improve operations, improve tenant satisfaction, and maximize revenue with our all-in-one apartment management system.</p>
+        <div class="relative z-10 flex flex-col items-center justify-center h-full max-w-6xl mx-auto text-white px-6">
+            <h1 class="text-4xl font-bold tracking-wider fade-in-up text-center">Find Your Perfect Apartment</h1>
+            <p class="mt-4 text-lg max-w-xl fade-in-up text-center" style="animation-delay: 0.2s;">Search apartments, houses, and more. Find the perfect place to stay at an amazing price.</p>
+            
+           
+            </div>
         </div>
     </section>
 
@@ -119,15 +151,15 @@
         <section class="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-12 text-center">
             <div class="bg-white p-8 rounded-2xl shadow-lg fade-in-up" style="transition-delay: 400ms;">
                 <p class="text-gray-500 font-medium">Total Properties</p>
-                <p class="text-5xl font-bold text-gray-900 mt-2">45</p>
+                <p class="text-5xl font-bold text-gray-900 mt-2">{{ $totalProperties }}</p>
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-lg fade-in-up" style="transition-delay: 500ms;">
                 <p class="text-gray-500 font-medium">Total Units</p>
-                <p class="text-5xl font-bold text-gray-900 mt-2">145</p>
+                <p class="text-5xl font-bold text-gray-900 mt-2">{{ $totalUnits }}</p>
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-lg fade-in-up" style="transition-delay: 600ms;">
                 <p class="text-gray-500 font-medium">Average Occupancy</p>
-                <p class="text-5xl font-bold text-gray-900 mt-2">95%</p>
+                <p class="text-5xl font-bold text-gray-900 mt-2">{{ round($averageOccupancy, 2) }}%</p>
             </div>
         </section>
 
@@ -136,4 +168,4 @@
     <x-footer />
 
 </body>
-</html> 
+</html>

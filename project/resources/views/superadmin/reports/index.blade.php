@@ -36,49 +36,72 @@
     </div>
 
     <div class="overflow-x-auto">
-            <table class="min-w-full border border-gray-300">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">Report Name</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">Type</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">Date Range</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">Status</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">Generated At</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse($reports as $report)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-300">{{ $report->report_name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{{ $report->report_type }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{{ $report->date_range }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap border-r border-gray-300">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $report->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                    {{ $report->status }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">{{ $report->completed_at ? $report->completed_at->format('Y-m-d H:i:s') : 'N/A' }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                @if($report->status == 'completed')
-                                <a href="{{ $report->file_path }}" class="text-indigo-600 hover:text-indigo-900" download>Download</a>
-                                @endif
-                                <a href="{{ route('superadmin.reports.show', $report->id) }}" class="text-indigo-600 hover:text-indigo-900 ml-4">View</a>
-                                <form action="{{ route('superadmin.reports.destroy', $report->id) }}" method="POST" class="inline-block ml-4">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this report?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No reports found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <table class="min-w-full border border-gray-300">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">
+                        Report Name</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">
+                        Type</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">
+                        Date Range</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">
+                        Status</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r border-gray-300">
+                        Generated At</th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @forelse($reports as $report)
+                    <tr>
+                        <td
+                            class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-300">
+                            {{ $report->report_name }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">
+                            {{ $report->report_type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">
+                            {{ $report->date_range }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap border-r border-gray-300">
+                            <span
+                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $report->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                {{ $report->status }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 border-r border-gray-300">
+                            {{ $report->completed_at ? $report->completed_at->format('Y-m-d H:i:s') : 'N/A' }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            @if ($report->status == 'completed')
+                                <a href="{{ $report->file_path }}" class="text-indigo-600 hover:text-indigo-900"
+                                    download>Download</a>
+                            @endif
+                            <a href="{{ route('superadmin.reports.show', $report->id) }}"
+                                class="text-indigo-600 hover:text-indigo-900 ml-4">View</a>
+                            <form action="{{ route('superadmin.reports.destroy', $report->id) }}" method="POST"
+                                class="inline-block ml-4">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-900"
+                                    onclick="return confirm('Are you sure you want to delete this report?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">No
+                            reports found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    </div>
     </div>
 </x-superadmin-layout>
