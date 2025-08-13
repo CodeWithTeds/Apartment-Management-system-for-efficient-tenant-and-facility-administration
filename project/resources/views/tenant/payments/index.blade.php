@@ -25,6 +25,7 @@
             <div class="px-6 py-4 border-b bg-gradient-to-r from-gray-50 to-white rounded-t-xl">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-semibold text-gray-800">Payment history</h2>
+                    <a href="{{ route('tenant.agreements.index') }}" class="text-blue-600 hover:underline">View my lease agreements</a>
                 </div>
             </div>
 
