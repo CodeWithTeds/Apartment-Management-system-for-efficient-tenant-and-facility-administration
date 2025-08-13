@@ -13,6 +13,7 @@ class TenantReportController extends Controller
     public function index()
     {
         $reports = Report::where('assignable_type', User::class)
+            ->where('channel', Report::CHANNEL_ADMIN_TO_TENANT)
             ->with(['assignable'])
             ->latest('created_at')
             ->get();
@@ -58,6 +59,7 @@ class TenantReportController extends Controller
             'completed_at' => now(),
             'assignable_id' => $validated['tenant_id'],
             'assignable_type' => User::class,
+            'channel' => Report::CHANNEL_ADMIN_TO_TENANT,
         ]);
 
         return redirect()->route('admin.reports.index')->with('success', 'Report uploaded and assigned to tenant.');

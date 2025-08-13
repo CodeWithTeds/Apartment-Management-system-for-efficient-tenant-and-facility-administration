@@ -22,6 +22,7 @@ class Report extends Model
         'completed_at',
         'assignable_id',
         'assignable_type',
+        'channel',
     ];
 
     protected $casts = [
@@ -29,6 +30,9 @@ class Report extends Model
         'end_date' => 'datetime',
         'completed_at' => 'datetime',
     ];
+
+    public const CHANNEL_SUPERADMIN_TO_ADMIN = 'superadmin_to_admin';
+    public const CHANNEL_ADMIN_TO_TENANT = 'admin_to_tenant';
 
     public function assignable()
     {

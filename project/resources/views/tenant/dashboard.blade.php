@@ -40,14 +40,31 @@
             </div>
         </div>
         <div class="flex items-center p-4 bg-white rounded-lg shadow-xs">
-            <div>
-                <p class="mb-2 text-sm font-medium text-gray-600">
-                    Maintenance Status
-                </p>
-                <ul>
-                    <li class="text-sm text-gray-600">Request 001: <span class="text-yellow-500">In Progress</span></li>
-                    <li class="text-sm text-gray-600">Request 002: <span class="text-green-500">Completed</span></li>
-                    <li class="text-sm text-gray-600">Request 003: <span class="text-red-500">Pending</span></li>
+            <div class="w-full">
+                <div class="flex items-center justify-between">
+                    <p class="mb-2 text-sm font-medium text-gray-600">Maintenance Status</p>
+                    <p class="text-xs text-gray-500">
+                        Last updated: {{ $lastMaintenanceUpdate ? $lastMaintenanceUpdate->format('M d, Y') : 'N/A' }}
+                    </p>
+                </div>
+                <ul class="space-y-1">
+                    @forelse(($maintenanceRequests ?? []) as $req)
+                        <li class="text-sm text-gray-700 flex items-center justify-between">
+                            <span class="truncate max-w-[70%]">{{ $req->title }}</span>
+                            @php($status = strtolower($req->status))
+                            @if($status === 'pending')
+                                <span class="text-red-500">Pending</span>
+                            @elseif($status === 'in progress')
+                                <span class="text-yellow-500">In Progress</span>
+                            @elseif($status === 'completed')
+                                <span class="text-green-500">Completed</span>
+                            @else
+                                <span class="text-gray-500">{{ ucfirst($req->status) }}</span>
+                            @endif
+                        </li>
+                    @empty
+                        <li class="text-sm text-gray-500">No maintenance requests yet.</li>
+                    @endforelse
                 </ul>
             </div>
         </div>

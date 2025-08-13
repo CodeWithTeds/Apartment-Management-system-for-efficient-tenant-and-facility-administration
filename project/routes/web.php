@@ -109,11 +109,22 @@ Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function (
             $payments = $user->payments()->latest()->get();
             $latestPayment = $payments->first();
             $paymentHistory = $payments->take(5);
+            $maintenanceRequests = \App\Models\MaintenanceRequest::where('tenant_id', $user->id)
+                ->latest('updated_at')
+                ->take(3)
+                ->get();
+            $lastMaintenanceUpdateRaw = \App\Models\MaintenanceRequest::where('tenant_id', $user->id)
+                ->max('updated_at');
+            $lastMaintenanceUpdate = $lastMaintenanceUpdateRaw
+                ? \Illuminate\Support\Carbon::parse($lastMaintenanceUpdateRaw)->timezone(config('app.timezone'))
+                : null;
             
             return view('tenant.dashboard', [
                 'payments' => $payments,
                 'latestPayment' => $latestPayment,
-                'paymentHistory' => $paymentHistory
+                'paymentHistory' => $paymentHistory,
+                'maintenanceRequests' => $maintenanceRequests,
+                'lastMaintenanceUpdate' => $lastMaintenanceUpdate
             ]);
         })->name('dashboard');
     });

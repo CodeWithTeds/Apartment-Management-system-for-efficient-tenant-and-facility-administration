@@ -66,6 +66,7 @@ class ReportController extends Controller
             'assignable_id' => $assignable_id,
             'assignable_type' => $assignable_type,
             'status' => 'pending',
+            'channel' => Report::CHANNEL_SUPERADMIN_TO_ADMIN,
         ]);
 
         $this->generateReport($report);
