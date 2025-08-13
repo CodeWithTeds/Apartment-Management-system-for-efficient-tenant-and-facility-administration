@@ -56,9 +56,22 @@
                 </a>
             </div>
         </div>
-        <a href="{{ route('admin.agreements.index') }}"
-            class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.agreements.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }}">
-            <span class="font-semibold">Lease Agreements</span>
-        </a>
+        <div x-data="{ openAgreements: {{ request()->routeIs('admin.agreements.*') ? 'true' : 'false' }} }">
+            <button type="button" @click="openAgreements = !openAgreements"
+                class="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.agreements.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-blue-100 hover:bg-blue-700 hover:text-white' }}">
+                <span class="font-semibold">Lease Agreements</span>
+                <svg class="w-4 h-4 transform transition-transform duration-200" :class="{ 'rotate-180': openAgreements }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div x-show="openAgreements" class="mt-1 ml-6 space-y-1">
+                <a href="{{ route('admin.agreements.index') }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.agreements.index') ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
+                    <span>From Super Admin</span>
+                </a>
+                <a href="{{ route('admin.agreements.tenants.index') }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.agreements.tenants.*') ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
+                    <span>To Tenants</span>
+                </a>
+            </div>
+        </div>
     </nav>
 </aside>

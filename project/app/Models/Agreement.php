@@ -12,9 +12,11 @@ class Agreement extends Model
         'content',
         'super_admin_id',
         'admin_id',
+        'tenant_id',
         'status',
         'admin_acknowledged_at',
         'admin_notes',
+        'channel',
     ];
 
     protected $casts = [
@@ -29,5 +31,10 @@ class Agreement extends Model
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+
+    public function tenant(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'tenant_id');
     }
 }

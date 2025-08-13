@@ -22,6 +22,7 @@ use App\Http\Controllers\Tenant\MaintenanceRequestController as TenantMaintenanc
 use App\Http\Controllers\SuperAdmin\ReportController;
 use App\Http\Controllers\SuperAdmin\AgreementController;
 use App\Http\Controllers\Admin\AgreementController as AdminAgreementController;
+use App\Http\Controllers\Admin\TenantAgreementController as AdminTenantAgreementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,9 @@ Route::prefix('superadmin')->name('superadmin.')->group(function(){
     Route::resource('agreements', AgreementController::class)->middleware('auth:superadmin');
 });
 
+// Constrain route model binding for agreement ids
+Route::pattern('agreement', '[0-9]+');
+
 // Admin routes for property owners
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'])->group(function () {
     Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
@@ -78,6 +82,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'
         Route::get('/create', [AdminTenantReportController::class, 'create'])->name('create');
         Route::post('/', [AdminTenantReportController::class, 'store'])->name('store');
     });
+    // Admin -> Tenant agreements
+    Route::prefix('agreements/tenants')->name('agreements.tenants.')->group(function () {
+        Route::get('/', [AdminTenantAgreementController::class, 'index'])->name('index');
+        Route::get('/create', [AdminTenantAgreementController::class, 'create'])->name('create');
+        Route::post('/', [AdminTenantAgreementController::class, 'store'])->name('store');
+    });
+
     Route::resource('inquiries', App\Http\Controllers\InquiryController::class)->only(['index', 'show', 'update']);
     Route::resource('agreements', AdminAgreementController::class)->only(['index', 'show']);
     Route::post('agreements/{agreement}/acknowledge', [AdminAgreementController::class, 'acknowledge'])->name('agreements.acknowledge');
