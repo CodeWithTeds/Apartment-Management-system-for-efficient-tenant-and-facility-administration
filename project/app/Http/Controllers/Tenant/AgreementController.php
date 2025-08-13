@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Agreement;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AgreementController extends Controller
 {
@@ -26,6 +27,7 @@ class AgreementController extends Controller
             abort(403);
         }
 
+        $agreement->load(['tenant', 'admin']);
         return view('tenant.agreements.show', compact('agreement'));
     }
 
@@ -50,6 +52,22 @@ class AgreementController extends Controller
 
         return redirect()->route('tenant.agreements.show', $agreement)
             ->with('success', 'Agreement status updated.');
+    }
+
+    public function pdf(Agreement $agreement)
+    {
+        if ($agreement->tenant_id !== Auth::id()) {
+            abort(403);
+        }
+
+        $agreement->load(['tenant', 'admin']);
+
+        $pdf = Pdf::loadView('tenant.agreements.pdf', [
+            'agreement' => $agreement,
+        ]);
+
+        $filename = 'agreement-' . $agreement->id . '.pdf';
+        return $pdf->stream($filename);
     }
 }
 
