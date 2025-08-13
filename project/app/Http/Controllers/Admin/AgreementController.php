@@ -13,6 +13,10 @@ class AgreementController extends Controller
     {
         $agreements = Agreement::with(['superAdmin', 'admin'])
             ->where('admin_id', Auth::id())
+            ->where(function ($query) {
+                $query->where('channel', 'superadmin_to_admin')
+                      ->orWhereNotNull('super_admin_id');
+            })
             ->latest()
             ->paginate(10);
         

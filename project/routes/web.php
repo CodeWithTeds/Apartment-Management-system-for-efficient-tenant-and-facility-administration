@@ -115,6 +115,7 @@ Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function (
         Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments.index');
         Route::get('/agreements', [\App\Http\Controllers\Tenant\AgreementController::class, 'index'])->name('agreements.index');
         Route::get('/agreements/{agreement}', [\App\Http\Controllers\Tenant\AgreementController::class, 'show'])->name('agreements.show');
+        Route::patch('/agreements/{agreement}', [\App\Http\Controllers\Tenant\AgreementController::class, 'update'])->name('agreements.update');
         Route::get('/reports', [\App\Http\Controllers\Tenant\ReportController::class, 'index'])->name('reports.index');
         Route::get('/dashboard', function () {
             /** @var \App\Models\User $user */

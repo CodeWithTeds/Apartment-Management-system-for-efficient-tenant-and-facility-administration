@@ -42,7 +42,7 @@
                                         <div class="text-base font-semibold text-gray-900">{{ $agreement->title }}</div>
                                     </td>
                                     <td class="p-4 text-sm font-normal text-gray-500 whitespace-nowrap">
-                                        {{ $agreement->superAdmin->name }}
+                                        {{ $agreement->superAdmin->name ?? '—' }}
                                     </td>
                                     <td class="p-4 whitespace-nowrap">
                                         @switch($agreement->status)
