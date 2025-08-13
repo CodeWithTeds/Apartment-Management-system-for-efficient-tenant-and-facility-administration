@@ -7,18 +7,32 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class TenantReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $reports = Report::where('assignable_type', User::class)
-            ->where('channel', Report::CHANNEL_ADMIN_TO_TENANT)
-            ->with(['assignable'])
-            ->latest('created_at')
-            ->get();
+        $tab = $request->query('tab', 'tenants');
 
-        return view('admin.reports.index', compact('reports'));
+        $tenantReports = collect();
+        $incomingReports = collect();
+
+        if ($tab === 'incoming') {
+            $incomingReports = Report::where('channel', Report::CHANNEL_SUPERADMIN_TO_ADMIN)
+                ->where('assignable_type', User::class)
+                ->where('assignable_id', Auth::id())
+                ->latest('created_at')
+                ->get();
+        } else {
+            $tenantReports = Report::where('assignable_type', User::class)
+                ->where('channel', Report::CHANNEL_ADMIN_TO_TENANT)
+                ->with(['assignable'])
+                ->latest('created_at')
+                ->get();
+        }
+
+        return view('admin.reports.index', compact('tenantReports', 'incomingReports', 'tab'));
     }
 
     public function create()

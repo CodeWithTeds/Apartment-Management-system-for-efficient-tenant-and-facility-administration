@@ -45,8 +45,11 @@
                 </svg>
             </button>
             <div x-show="open" class="mt-1 ml-6 space-y-1">
-                <a href="{{ route('admin.reports.index') }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.reports.index') ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
+                <a href="{{ route('admin.reports.index', ['tab' => 'tenants']) }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.reports.index') && request('tab') !== 'incoming' ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
                     <span>To Tenants</span>
+                </a>
+                <a href="{{ route('admin.reports.index', ['tab' => 'incoming']) }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.reports.index') && request('tab') === 'incoming' ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
+                    <span>To Me</span>
                 </a>
                 <a href="{{ route('admin.reports.create') }}" class="flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 {{ request()->routeIs('admin.reports.create') ? 'bg-blue-600/60 text-white' : 'text-blue-100 hover:bg-blue-700/50 hover:text-white' }}">
                     <span>Create</span>
