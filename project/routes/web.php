@@ -47,6 +47,12 @@ Route::get('dashboard', DashboardController::class)
 Route::get('payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
+// Logo upload route for admins/owners
+Route::get('admin/profile/logo', [App\Http\Controllers\Admin\ProfileLogoController::class, 'index'])->name('admin.profile.logo.index');
+Route::post('admin/profile/logo', [App\Http\Controllers\Admin\ProfileLogoController::class, 'update'])
+    ->middleware(['auth'])
+    ->name('admin.profile.logo.update');
+
 Route::view('profile', 'profile')
     ->middleware(['auth'])
     ->name('profile');

@@ -1,7 +1,11 @@
 <!-- Sidebar -->
 <aside x-show="sidebarOpen" class="flex flex-col w-64 bg-white shadow-lg">
     <div class="flex items-center justify-center h-20 shadow-md">
-        <img src="{{ asset('images/logo.png') }}" alt="logo" class="h-50">
+        @if(isset($ownerLogo) && $ownerLogo)
+            <img src="{{ Storage::url($ownerLogo) }}" alt="Property Owner Logo" class="h-16">
+        @else
+            <img src="{{ asset('images/logo.png') }}" alt="logo" class="h-16">
+        @endif
     </div>
     <nav class="flex-1 px-4 py-8 space-y-2">
         <a href="{{ route('tenant.dashboard') }}" class="flex items-center px-4 py-3 rounded-lg {{ request()->routeIs('tenant.dashboard') ? 'bg-blue-500 text-white' : 'text-gray-600 hover:bg-gray-100' }}">

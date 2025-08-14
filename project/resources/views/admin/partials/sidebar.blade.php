@@ -2,8 +2,12 @@
 <aside x-show="sidebarOpen" class="flex flex-col w-64 bg-gradient-to-b from-blue-900 to-blue-800 shadow-2xl">
     <div class="flex items-center justify-center h-20 border-b border-blue-700">
         <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <img src="{{ asset('images/logo.png') }}" alt="logo" class="h-8 w-8">
+            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                @if(auth()->user()->logo_path)
+                    <img src="{{ Storage::url(auth()->user()->logo_path) }}" alt="logo" class="h-8 w-8">
+                @else
+                    <img src="{{ asset('images/logo.png') }}" alt="logo" class="h-8 w-8">
+                @endif
             </div>
             <div>
                 <h1 class="text-white font-bold text-lg">HYSLOP</h1>
@@ -73,5 +77,11 @@
                 </a>
             </div>
         </div>
+        
+        <!-- Logo Settings -->
+        <a href="{{ route('admin.profile.logo.index') }}" 
+            class="flex items-center px-4 py-3 rounded-xl transition-all duration-200 group text-blue-100 hover:bg-blue-700 hover:text-white {{ request()->routeIs('admin.profile.logo.index') ? 'bg-blue-600' : '' }}">
+            <span class="font-semibold">Company Logo</span>
+        </a>
     </nav>
 </aside>
