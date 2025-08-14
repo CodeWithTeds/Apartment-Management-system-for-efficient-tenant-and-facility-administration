@@ -60,20 +60,7 @@
     });
 ">
     <!-- Header with blue background like Agoda -->
-    <header class="bg-[#5392F9] shadow-md">
-        <nav class="mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="{{ asset('images/logo.png') }}" alt="Hyslop Logo" class="h-12">
-            </div>
-            <div class="flex items-center space-x-8">
-                <a href="/" class="text-black hover:text-gray-700 font-semibold tracking-wide">HOME</a>
-                <a href="{{ route('become-a-property-owner') }}" class="text-black hover:text-gray-700 font-semibold tracking-wide">BECOME A PROPERTY OWNER</a>
-
-                <a href="#" class="text-black hover:text-gray-700 font-semibold tracking-wide">LOGIN</a>
-
-            </div>
-        </nav>
-    </header>
+    <x-header />
 
     <!-- Hero Section with Search Box -->
     <section class="relative bg-cover bg-center" style="background-image: url('{{ asset('images/hero.png') }}'); height: 500px;">
