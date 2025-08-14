@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Payment::class, 'tenant_id');
     }
+
+    public function agreementAsTenant()
+    {
+        return $this->hasOne(Agreement::class, 'tenant_id');
+    }
 }

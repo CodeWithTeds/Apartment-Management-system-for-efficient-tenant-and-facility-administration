@@ -5,6 +5,8 @@ namespace App\Http\View\Composers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Inquiry;
+use App\Models\Unit;
 
 class TenantLogoComposer
 {
@@ -14,16 +16,11 @@ class TenantLogoComposer
     public function compose(View $view)
     {
         if (Auth::check() && Auth::user()->role === 'tenant') {
-            // Get current tenant
+            /** @var \App\Models\User $tenant */
             $tenant = Auth::user();
-            
-            // Get properties this tenant has inquired about through units
-            $unit = \App\Models\Unit::whereHas('inquiry', function($query) use ($tenant) {
-                $query->where('email', $tenant->email);
-            })->first();
-            
-            if ($unit && $unit->apartment && $unit->apartment->owner) {
-                $ownerLogo = $unit->apartment->owner->logo_path;
+
+            if ($tenant->agreementAsTenant && $tenant->agreementAsTenant->admin) {
+                $ownerLogo = $tenant->agreementAsTenant->admin->logo_path;
                 $view->with('ownerLogo', $ownerLogo);
             }
         }
