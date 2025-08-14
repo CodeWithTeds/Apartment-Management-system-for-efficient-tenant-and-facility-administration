@@ -68,13 +68,66 @@
         <div class="relative z-10 flex flex-col items-center justify-center h-full max-w-6xl mx-auto text-white px-6">
             <h1 class="text-4xl font-bold tracking-wider fade-in-up text-center">Find Your Perfect Apartment</h1>
             <p class="mt-4 text-lg max-w-xl fade-in-up text-center" style="animation-delay: 0.2s;">Search apartments, houses, and more. Find the perfect place to stay at an amazing price.</p>
-            
-           
-            </div>
         </div>
     </section>
 
     <main class="py-16">
+        <section id="filters" class="mb-12 container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Filter Properties</h3>
+                <form action="{{ url('/') }}" method="GET">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <div>
+                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
+                            <input type="text" name="location" id="location" value="{{ request('location') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. Cebu City">
+                        </div>
+                        <div>
+                            <label for="property_type" class="block text-sm font-medium text-gray-700">Property Type</label>
+                            <select name="property_type" id="property_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="">Any</option>
+                                <option value="apartment" {{ request('property_type') == 'apartment' ? 'selected' : '' }}>Apartment</option>
+                                <option value="house" {{ request('property_type') == 'house' ? 'selected' : '' }}>House</option>
+                                <option value="condo" {{ request('property_type') == 'condo' ? 'selected' : '' }}>Condo</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="rent_type" class="block text-sm font-medium text-gray-700">Rent Type</label>
+                            <select name="rent_type" id="rent_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="">Any</option>
+                                <option value="for_rent" {{ request('rent_type') == 'for_rent' ? 'selected' : '' }}>For Rent</option>
+                                <option value="short_term" {{ request('rent_type') == 'short_term' ? 'selected' : '' }}>Short Term</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="pet_policy" class="block text-sm font-medium text-gray-700">Pet Policy</label>
+                            <select name="pet_policy" id="pet_policy" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                                <option value="">Any</option>
+                                <option value="allowed" {{ request('pet_policy') == 'allowed' ? 'selected' : '' }}>Allowed</option>
+                                <option value="not_allowed" {{ request('pet_policy') == 'not_allowed' ? 'selected' : '' }}>Not Allowed</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="price_from" class="block text-sm font-medium text-gray-700">Min Price</label>
+                            <input type="number" name="price_from" id="price_from" value="{{ request('price_from') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="0">
+                        </div>
+                        <div>
+                            <label for="price_to" class="block text-sm font-medium text-gray-700">Max Price</label>
+                            <input type="number" name="price_to" id="price_to" value="{{ request('price_to') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Any">
+                        </div>
+                        <div class="sm:col-span-2 md:col-span-1 lg:col-span-2">
+                            <label for="amenities" class="block text-sm font-medium text-gray-700">Amenities</label>
+                            <input type="text" name="amenities" id="amenities" value="{{ request('amenities') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. pool, gym">
+                        </div>
+                    </div>
+                    <div class="mt-6 text-right">
+                        <a href="{{ url('/') }}" class="text-gray-600 hover:text-gray-900 mr-4">Clear Filters</a>
+                        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Apply Filters
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
         
         <!-- Featured Apartments Section -->
         <section id="featured-apartments" class="mb-24 container mx-auto px-4 sm:px-6 lg:px-8">

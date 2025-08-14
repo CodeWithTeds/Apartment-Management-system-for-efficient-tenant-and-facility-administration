@@ -7,9 +7,34 @@ use App\Models\Apartment;
 
 class LandingController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $apartments = Apartment::with('rules')->latest()->get();
+        $query = Apartment::with('rules')->latest();
+
+        if ($request->has('property_type') && $request->property_type != '') {
+            $query->where('property_type', $request->property_type);
+        }
+        if ($request->has('rent_type') && $request->rent_type != '') {
+            $query->where('rent_type', $request->rent_type);
+        }
+        if ($request->has('pet_policy') && $request->pet_policy != '') {
+            $query->where('pet_policy', $request->pet_policy);
+        }
+        if ($request->has('location') && $request->location != '') {
+            $query->where('location', 'like', '%' . $request->location . '%');
+        }
+        if ($request->has('price_from') && $request->price_from != '') {
+            $query->where('price', '>=', $request->price_from);
+        }
+        if ($request->has('price_to') && $request->price_to != '') {
+            $query->where('price', '<=', $request->price_to);
+        }
+        if ($request->has('amenities') && $request->amenities != '') {
+            $query->where('amenities', 'like', '%' . $request->amenities . '%');
+        }
+
+        $apartments = $query->get();
+
         $totalProperties = Apartment::count();
         $totalUnits = Apartment::sum('total_units');
         $availableUnits = Apartment::sum('available_units');
