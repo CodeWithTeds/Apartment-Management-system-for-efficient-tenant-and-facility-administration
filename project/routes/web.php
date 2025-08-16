@@ -110,14 +110,14 @@ Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function (
         $pendingPayment = $user->payments()->where('status', 'pending')->latest()->first();
         return view('tenant.payment-required', compact('pendingPayment'));
     })->name('payment.required');
-    
-    // Maintenance requests
-    Route::get('/maintenance', [TenantMaintenanceRequestController::class, 'index'])->name('maintenance.index');
-    Route::get('/maintenance/create', [TenantMaintenanceRequestController::class, 'create'])->name('maintenance.create');
-    Route::post('/maintenance', [TenantMaintenanceRequestController::class, 'store'])->name('maintenance.store');
 
     // Routes that require payment
     Route::middleware('check.tenant.payment')->group(function () {
+        // Maintenance requests
+        Route::get('/maintenance', [TenantMaintenanceRequestController::class, 'index'])->name('maintenance.index');
+        Route::get('/maintenance/create', [TenantMaintenanceRequestController::class, 'create'])->name('maintenance.create');
+        Route::post('/maintenance', [TenantMaintenanceRequestController::class, 'store'])->name('maintenance.store');
+
         Route::get('/payments', [TenantPaymentController::class, 'index'])->name('payments.index');
         Route::get('/agreements', [\App\Http\Controllers\Tenant\AgreementController::class, 'index'])->name('agreements.index');
         Route::get('/agreements/{agreement}', [\App\Http\Controllers\Tenant\AgreementController::class, 'show'])->name('agreements.show');
@@ -140,7 +140,7 @@ Route::prefix('tenant')->name('tenant.')->middleware(['auth'])->group(function (
             $lastMaintenanceUpdate = $lastMaintenanceUpdateRaw
                 ? \Illuminate\Support\Carbon::parse($lastMaintenanceUpdateRaw)->timezone(config('app.timezone'))
                 : null;
-            
+
             return view('tenant.dashboard', [
                 'payments' => $payments,
                 'latestPayment' => $latestPayment,
