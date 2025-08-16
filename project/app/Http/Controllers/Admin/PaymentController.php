@@ -20,9 +20,18 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $payments = Payment::whereHas('agreement', function ($query) {
+        $payments = Payment::where(function($query) {
+            // Get payments where the current user is the property owner
             $query->where('property_owner_id', Auth::id());
-        })->with('agreement.tenant')->latest()->get();
+            
+            // Or where the agreement belongs to the current user
+            $query->orWhereHas('agreement', function ($q) {
+                $q->where('admin_id', Auth::id());
+            });
+        })
+        ->with(['tenant', 'agreement.tenant'])
+        ->latest()
+        ->get();
 
         $stats = [
             'total_payments' => $payments->count(),
@@ -35,10 +44,21 @@ class PaymentController extends Controller
 
     public function create()
     {
+        // Get tenants who have inquiries for apartments owned by the current admin
         $tenants = User::where('role', 'tenant')
             ->whereHas('agreementsAsTenant', function ($query) {
-                $query->where('admin_id', Auth::id());
-            })->get();
+                $query->where('admin_id', Auth::id())
+                    ->where('status', 'active');
+            })
+            ->orWhereExists(function ($query) {
+                $query->select('inquiries.id')
+                    ->from('inquiries')
+                    ->join('apartments', 'inquiries.apartment_id', '=', 'apartments.id')
+                    ->whereColumn('inquiries.email', 'users.email')
+                    ->where('apartments.admin_id', Auth::id())
+                    ->where('inquiries.status', 'accepted');
+            })
+            ->get();
 
         $billTypes = ['rent', 'water', 'electric'];
         return view('admin.payments.create', compact('tenants', 'billTypes'));
@@ -54,15 +74,21 @@ class PaymentController extends Controller
         ]);
 
         $tenant = User::find($request->tenant_id);
-        $agreement = $tenant->agreements->first();
-
-        if (!$agreement) {
-            return back()->with('error', 'Selected tenant does not have an active agreement.');
-        }
-
+        
+        // Try to find an agreement
+        $agreement = $tenant->agreementsAsTenant()->where('admin_id', Auth::id())->first();
+        
+        // If no agreement exists, create a basic data array
         $data = $request->all();
-        $data['agreement_id'] = $agreement->id;
+        $data['tenant_id'] = $tenant->id;
+        $data['property_owner_id'] = Auth::id();
         $data['balance'] = $request->amount;
+        $data['status'] = 'pending';
+        
+        // If agreement exists, add it to the data
+        if ($agreement) {
+            $data['agreement_id'] = $agreement->id;
+        }
 
         $payment = Payment::create($data);
 

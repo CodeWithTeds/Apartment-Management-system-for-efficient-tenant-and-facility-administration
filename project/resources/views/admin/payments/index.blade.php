@@ -48,6 +48,7 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tenant</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bill Type</th>
                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                         <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Link</th>
                     </tr>
@@ -70,6 +71,7 @@
                                 <div class="text-sm text-gray-900">P{{ number_format($payment->amount, 2) }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $payment->description }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">{{ $payment->bill_type ?? 'rent' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if($payment->status === 'paid')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">

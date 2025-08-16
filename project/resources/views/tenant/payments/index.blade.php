@@ -35,9 +35,9 @@
                         <tr class="text-xs uppercase tracking-wide text-gray-600 bg-gray-50/80 backdrop-blur">
                             <th class="px-6 py-3 text-left">Date</th>
                             <th class="px-6 py-3 text-left">Description</th>
+                            <th class="px-6 py-3 text-left">Bill Type</th>
                             <th class="px-6 py-3 text-left">Amount</th>
                             <th class="px-6 py-3 text-left">Status</th>
-                            
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -45,6 +45,7 @@
                             <tr class="text-sm text-gray-700 odd:bg-white even:bg-gray-50 hover:bg-blue-50/60 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $payment->created_at->format('M d, Y H:i') }}</td>
                                 <td class="px-6 py-4">{{ $payment->description }}</td>
+                                <td class="px-6 py-4 capitalize">{{ $payment->bill_type ?? 'rent' }}</td>
                                 <td class="px-6 py-4 tabular-nums font-mono">₱{{ number_format($payment->amount, 2) }}</td>
                                 <td class="px-6 py-4">
                                     @if($payment->status === 'paid')
