@@ -38,8 +38,11 @@ class PaymentController extends Controller
             'total_paid' => $payments->where('status', 'paid')->sum('amount'),
             'total_pending' => $payments->where('status', 'pending')->sum('amount'),
         ];
+        
+        // Load properties with bill settings
+        $properties = Apartment::where('admin_id', Auth::id())->get();
 
-        return view('admin.payments.index', compact('payments', 'stats'));
+        return view('admin.payments.index', compact('payments', 'stats', 'properties'));
     }
 
     public function create()

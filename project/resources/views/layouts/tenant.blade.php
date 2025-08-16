@@ -5,7 +5,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Laravel') }} - Tenant</title>
+
+        <!-- Favicon -->
+        @if(isset($ownerLogo) && $ownerLogo)
+            <link rel="icon" href="{{ Storage::url($ownerLogo) }}" type="image/png">
+            <link rel="shortcut icon" href="{{ Storage::url($ownerLogo) }}" type="image/png">
+            <link rel="apple-touch-icon" href="{{ Storage::url($ownerLogo) }}">
+        @else
+            <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+            <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+            <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+        @endif
 
         <!-- Scripts -->
         <script src="https://cdn.tailwindcss.com"></script>

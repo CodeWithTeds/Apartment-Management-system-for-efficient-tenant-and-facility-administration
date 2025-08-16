@@ -79,6 +79,8 @@ Route::pattern('agreement', '[0-9]+');
 // Admin routes for property owners
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'check.subscription'])->group(function () {
     Route::resource('property', PropertyController::class)->parameters(['property' => 'apartment']);
+    Route::get('property/{apartment}/bill-settings', [PropertyController::class, 'billSettings'])->name('property.bill-settings');
+    Route::put('property/{apartment}/bill-settings', [PropertyController::class, 'updateBillSettings'])->name('property.bill-settings.update');
     Route::resource('units', UnitController::class);
     Route::resource('payments', AdminPaymentController::class)->only(['index', 'create', 'store']);
     Route::get('maintenance', [AdminMaintenanceRequestController::class, 'index'])->name('maintenance.index');

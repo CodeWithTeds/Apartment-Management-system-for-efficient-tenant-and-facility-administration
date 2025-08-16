@@ -118,4 +118,30 @@ class PropertyController extends Controller
         $apartment->delete();
         return redirect()->route('admin.property.index')->with('success', 'Property deleted successfully.');
     }
+    
+    /**
+     * Show bill settings for the specified property.
+     */
+    public function billSettings(Apartment $apartment)
+    {
+        $this->authorize('update', $apartment);
+        return view('admin.property.bill-settings', compact('apartment'));
+    }
+    
+    /**
+     * Update bill settings for the specified property.
+     */
+    public function updateBillSettings(Request $request, Apartment $apartment)
+    {
+        $this->authorize('update', $apartment);
+        
+        $validated = $request->validate([
+            'water_bill_toggle' => 'boolean',
+            'electric_bill_toggle' => 'boolean',
+        ]);
+        
+        $apartment->update($validated);
+        
+        return redirect()->route('admin.property.bill-settings', $apartment)->with('success', 'Bill settings updated successfully.');
+    }
 }
