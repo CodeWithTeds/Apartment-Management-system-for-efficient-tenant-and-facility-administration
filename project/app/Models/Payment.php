@@ -17,6 +17,7 @@ class Payment extends Model implements Payable
         'description',
         'payment_link',
         'status',
+        'bill_type',
     ];
 
     public function tenant()
@@ -27,6 +28,11 @@ class Payment extends Model implements Payable
     public function propertyOwner()
     {
         return $this->belongsTo(User::class, 'property_owner_id');
+    }
+
+    public function agreement()
+    {
+        return $this->belongsTo(Agreement::class);
     }
 
     public function getPayableName()

@@ -76,10 +76,6 @@
                             </select>
                         </div>
 
-                        <div class="mb-6">
-                            <label for="amenities" class="block text-sm font-medium text-gray-700">Amenities</label>
-                            <textarea name="amenities" id="amenities" rows="3" class="w-full p-4 border rounded-md">{{ old('amenities', $apartment->amenities) }}</textarea>
-                        </div>
 
                         <div class="mb-6">
                             <label for="admin_id" class="block text-sm font-medium text-gray-700">Assign to Admin</label>

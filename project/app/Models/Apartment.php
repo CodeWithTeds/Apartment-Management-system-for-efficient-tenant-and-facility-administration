@@ -28,12 +28,15 @@ class Apartment extends Model
         'location',
         'price',
         'property_type',
-        'amenities',
         'monthly_price',
         'monthly_includes',
         'short_term_price',
         'short_term_includes',
         'short_term_minimum_stay',
+        'water_bill_enabled',
+        'electric_bill_enabled',
+        'water_bill_toggle',
+        'electric_bill_toggle',
     ];
 
     public function owner()

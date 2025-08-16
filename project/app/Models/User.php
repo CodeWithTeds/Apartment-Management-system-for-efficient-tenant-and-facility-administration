@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Agreement::class, 'tenant_id');
     }
+
+    public function agreementsAsTenant()
+    {
+        return $this->hasMany(Agreement::class, 'tenant_id');
+    }
 }

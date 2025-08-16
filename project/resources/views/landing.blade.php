@@ -77,10 +77,7 @@
                 <h3 class="text-xl font-bold text-gray-800 mb-4">Filter Properties</h3>
                 <form action="{{ url('/') }}" method="GET">
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        <div>
-                            <label for="location" class="block text-sm font-medium text-gray-700">Location</label>
-                            <input type="text" name="location" id="location" value="{{ request('location') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. Cebu City">
-                        </div>
+                      
                         <div>
                             <label for="property_type" class="block text-sm font-medium text-gray-700">Property Type</label>
                             <select name="property_type" id="property_type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
@@ -114,10 +111,7 @@
                             <label for="price_to" class="block text-sm font-medium text-gray-700">Max Price</label>
                             <input type="number" name="price_to" id="price_to" value="{{ request('price_to') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Any">
                         </div>
-                        <div class="sm:col-span-2 md:col-span-1 lg:col-span-2">
-                            <label for="amenities" class="block text-sm font-medium text-gray-700">Amenities</label>
-                            <input type="text" name="amenities" id="amenities" value="{{ request('amenities') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="e.g. pool, gym">
-                        </div>
+                       
                     </div>
                     <div class="mt-6 text-right">
                         <a href="{{ url('/') }}" class="text-gray-600 hover:text-gray-900 mr-4">Clear Filters</a>

@@ -158,15 +158,7 @@
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="lg:col-span-2">
-                                <label for="amenities"
-                                    class="block text-sm font-medium text-gray-700">Amenities</label>
-                                <textarea name="amenities" id="amenities" rows="4"
-                                    class="w-full px-3 py-2 mt-1 border rounded-md @error('amenities') border-red-500 @enderror">{{ old('amenities') }}</textarea>
-                                @error('amenities')
-                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+
                             <div>
                                 <label for="admin_id" class="block text-sm font-medium text-gray-700">Admin</label>
                                 <select name="admin_id" id="admin_id"

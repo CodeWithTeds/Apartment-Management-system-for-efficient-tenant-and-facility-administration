@@ -54,10 +54,7 @@
                                 <p class="mt-2 text-gray-700">{{ $apartment->description }}</p>
                             </div>
 
-                            <div class="mt-6">
-                                <h3 class="text-lg font-semibold text-gray-800">Amenities</h3>
-                                <p class="mt-2 text-gray-700">{{ $apartment->amenities }}</p>
-                            </div>
+
                         </div>
 
                         @if ($apartment->image)

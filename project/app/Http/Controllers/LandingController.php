@@ -29,9 +29,7 @@ class LandingController extends Controller
         if ($request->has('price_to') && $request->price_to != '') {
             $query->where('price', '<=', $request->price_to);
         }
-        if ($request->has('amenities') && $request->amenities != '') {
-            $query->where('amenities', 'like', '%' . $request->amenities . '%');
-        }
+
 
         $apartments = $query->get();
 

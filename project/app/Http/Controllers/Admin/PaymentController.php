@@ -20,7 +20,9 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $payments = Payment::where('property_owner_id', Auth::id())->with('tenant')->latest()->get();
+        $payments = Payment::whereHas('agreement', function ($query) {
+            $query->where('property_owner_id', Auth::id());
+        })->with('agreement.tenant')->latest()->get();
 
         $stats = [
             'total_payments' => $payments->count(),
@@ -33,8 +35,13 @@ class PaymentController extends Controller
 
     public function create()
     {
-        $tenants = User::where('role', 'tenant')->get();
-        return view('admin.payments.create', compact('tenants'));
+        $tenants = User::where('role', 'tenant')
+            ->whereHas('agreementsAsTenant', function ($query) {
+                $query->where('admin_id', Auth::id());
+            })->get();
+
+        $billTypes = ['rent', 'water', 'electric'];
+        return view('admin.payments.create', compact('tenants', 'billTypes'));
     }
 
     public function store(Request $request)
@@ -43,10 +50,19 @@ class PaymentController extends Controller
             'tenant_id' => 'required|exists:users,id',
             'amount' => 'required|numeric',
             'description' => 'required|string',
+            'bill_type' => 'required|in:rent,water,electric',
         ]);
 
+        $tenant = User::find($request->tenant_id);
+        $agreement = $tenant->agreements->first();
+
+        if (!$agreement) {
+            return back()->with('error', 'Selected tenant does not have an active agreement.');
+        }
+
         $data = $request->all();
-        $data['property_owner_id'] = Auth::id();
+        $data['agreement_id'] = $agreement->id;
+        $data['balance'] = $request->amount;
 
         $payment = Payment::create($data);
 
